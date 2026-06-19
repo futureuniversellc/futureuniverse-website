@@ -15,10 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function moveCursor() {
       rx += (mx - rx) * 0.12;
       ry += (my - ry) * 0.12;
-      dot.style.left  = mx + 'px';
-      dot.style.top   = my + 'px';
-      ring.style.left = rx + 'px';
-      ring.style.top  = ry + 'px';
+      dot.style.transform  = `translate3d(${mx}px, ${my}px, 0) translate(-50%, -50%)`;
+      ring.style.transform = `translate3d(${rx}px, ${ry}px, 0) translate(-50%, -50%)`;
       requestAnimationFrame(moveCursor);
     }
     moveCursor();
@@ -238,23 +236,118 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // ── 3D Glass Tilt Effect ──────────────────────────────────
-  document.querySelectorAll('.card, .service-card, .feature-card, .testimonial-card').forEach(card => {
-    card.addEventListener('mousemove', e => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const cx = rect.width / 2;
-      const cy = rect.height / 2;
-      const rotateX = ((y - cy) / cy) * -6; // Max 6 deg tilt
-      const rotateY = ((x - cx) / cx) * 6;
-      
-      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
+  // ── 3D Glass Tilt Effect (Lerp Physics) ───────────────────
+  const tiltCards = document.querySelectorAll('.card, .service-card, .feature-card, .testimonial-card, .why-feature');
+  
+  tiltCards.forEach(card => {
+    let bounds;
+    let targetX = 0, targetY = 0, targetScale = 1, targetYOffset = 0;
+    let currentX = 0, currentY = 0, currentScale = 1, currentYOffset = 0;
+    let isHovering = false;
+    let rafId = null;
+
+    function update() {
+      // Very low multipliers for extreme smoothness and "heavy" floating feel
+      currentX += (targetX - currentX) * 0.035;
+      currentY += (targetY - currentY) * 0.035;
+      currentScale += (targetScale - currentScale) * 0.045;
+      currentYOffset += (targetYOffset - currentYOffset) * 0.045;
+
+      card.style.transform = `perspective(1000px) rotateX(${currentX}deg) rotateY(${currentY}deg) translateY(${currentYOffset}px) scale(${currentScale})`;
+
+      if (isHovering || Math.abs(targetX - currentX) > 0.01 || Math.abs(targetScale - currentScale) > 0.001) {
+        rafId = requestAnimationFrame(update);
+      } else {
+        card.style.transform = '';
+        card.style.transition = '';
+        rafId = null;
+      }
+    }
+
+    card.addEventListener('mouseenter', () => {
+      isHovering = true;
+      bounds = card.getBoundingClientRect();
+      targetScale = 1.02;
+      targetYOffset = -10;
+      card.style.transition = 'box-shadow 0.4s, border-color 0.4s, background 0.4s';
+      if (!rafId) rafId = requestAnimationFrame(update);
     });
+
+    card.addEventListener('mousemove', e => {
+      if (!bounds) bounds = card.getBoundingClientRect();
+      const x = e.clientX - bounds.left;
+      const y = e.clientY - bounds.top;
+      const cx = bounds.width / 2;
+      const cy = bounds.height / 2;
+      // Reduced the max angle so the slower movement doesn't feel excessive
+      targetX = ((y - cy) / cy) * -6;
+      targetY = ((x - cx) / cx) * 6;
+    });
+
     card.addEventListener('mouseleave', () => {
-      card.style.transform = '';
+      isHovering = false;
+      targetX = 0;
+      targetY = 0;
+      targetScale = 1;
+      targetYOffset = 0;
+      // Do not reset transition here, let the Lerp loop bring it back smoothly!
     });
   });
+
+  // ── Magnetic Buttons ────────────────────────────────────────
+  document.querySelectorAll('.btn').forEach(btn => {
+    btn.addEventListener('mousemove', e => {
+      const rect = btn.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      
+      // Magnetic pull (reduced strength)
+      btn.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px) scale(1.03)`;
+    });
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform = '';
+    });
+  });
+
+  // ── Global Hero 3D Parallax ────────────────────────────────
+  const heroText = document.querySelector('.hero-text-3d');
+  const heroBg = document.querySelector('.hero-bg');
+  const particleField = document.querySelector('.particle-field');
+  
+  if (heroText || heroBg || particleField) {
+    let mouseX = 0, mouseY = 0;
+    let currentX = 0, currentY = 0;
+    
+    document.addEventListener('mousemove', e => {
+      // Calculate mouse position relative to center of screen (-1 to 1)
+      mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+      mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+    });
+
+    function updateParallax() {
+      // Very soft lerp for dreamy floating
+      currentX += (mouseX - currentX) * 0.03;
+      currentY += (mouseY - currentY) * 0.03;
+      
+      // 1. Text tilts towards mouse
+      if (heroText) {
+        heroText.style.transform = `perspective(1000px) rotateX(${currentY * -15}deg) rotateY(${currentX * 15}deg)`;
+      }
+      
+      // 2. Background shifts away from mouse (Deep background layer)
+      if (heroBg) {
+        heroBg.style.transform = `scale(1.05) translate(${currentX * -25}px, ${currentY * -25}px)`;
+      }
+      
+      // 3. Particles shift away from mouse, but less than bg (Midground layer)
+      if (particleField) {
+        particleField.style.transform = `scale(1.05) translate(${currentX * -12}px, ${currentY * -12}px)`;
+      }
+
+      requestAnimationFrame(updateParallax);
+    }
+    updateParallax();
+  }
 
 });
 
