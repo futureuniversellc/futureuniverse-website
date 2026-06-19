@@ -180,7 +180,16 @@ document.addEventListener('DOMContentLoaded', () => {
       const orig = btn.innerHTML;
       btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
       btn.disabled = true;
-      setTimeout(() => {
+
+      const formData = new FormData(contactForm);
+
+      fetch('https://formsubmit.co/ajax/info@futureuniverse.co', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
         btn.innerHTML = '<i class="fa-solid fa-check"></i> Message Sent!';
         btn.style.background = '#22c55e';
         contactForm.reset();
@@ -189,7 +198,16 @@ document.addEventListener('DOMContentLoaded', () => {
           btn.style.background = '';
           btn.disabled = false;
         }, 4000);
-      }, 1800);
+      })
+      .catch(error => {
+        btn.innerHTML = '<i class="fa-solid fa-xmark"></i> Error Sending';
+        btn.style.background = '#ef4444';
+        setTimeout(() => {
+          btn.innerHTML = orig;
+          btn.style.background = '';
+          btn.disabled = false;
+        }, 4000);
+      });
     });
   }
 
