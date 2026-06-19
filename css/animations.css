@@ -1,0 +1,231 @@
+/* ============================================================
+   FUTURE UNIVERSE — ANIMATIONS
+   Scroll reveals, entrance effects, micro-interactions
+   Inspired by joyalsiby.com animation style
+   ============================================================ */
+
+/* ── Scroll Reveal Base ──────────────────────────────────── */
+[data-reveal] {
+  opacity: 0;
+  transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1),
+              transform 0.7s cubic-bezier(0.4,0,0.2,1);
+}
+
+[data-reveal="fade-up"]    { transform: translateY(40px); }
+[data-reveal="fade-down"]  { transform: translateY(-40px); }
+[data-reveal="fade-left"]  { transform: translateX(-40px); }
+[data-reveal="fade-right"] { transform: translateX(40px); }
+[data-reveal="fade-in"]    { transform: scale(0.94); }
+[data-reveal="zoom-in"]    { transform: scale(0.85); }
+
+[data-reveal].revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/* Stagger delays */
+[data-delay="100"] { transition-delay: 0.10s !important; }
+[data-delay="150"] { transition-delay: 0.15s !important; }
+[data-delay="200"] { transition-delay: 0.20s !important; }
+[data-delay="250"] { transition-delay: 0.25s !important; }
+[data-delay="300"] { transition-delay: 0.30s !important; }
+[data-delay="350"] { transition-delay: 0.35s !important; }
+[data-delay="400"] { transition-delay: 0.40s !important; }
+[data-delay="450"] { transition-delay: 0.45s !important; }
+[data-delay="500"] { transition-delay: 0.50s !important; }
+[data-delay="600"] { transition-delay: 0.60s !important; }
+
+/* ── Hero Entrance ───────────────────────────────────────── */
+@keyframes heroFadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes heroBadgePop {
+  from { opacity: 0; transform: scale(0.8); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.hero-badge      { animation: heroBadgePop 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.3s both; }
+.hero h1         { animation: heroFadeUp 0.8s cubic-bezier(0.4,0,0.2,1) 0.5s both; }
+.hero .hero-sub  { animation: heroFadeUp 0.7s cubic-bezier(0.4,0,0.2,1) 0.6s both; }
+.hero p          { animation: heroFadeUp 0.7s cubic-bezier(0.4,0,0.2,1) 0.75s both; }
+.hero .hero-btns { animation: heroFadeUp 0.7s cubic-bezier(0.4,0,0.2,1) 0.9s both; }
+.hero-stat       { animation: heroFadeUp 0.6s cubic-bezier(0.4,0,0.2,1) both; }
+.hero-stat:nth-child(1) { animation-delay: 1.0s; }
+.hero-stat:nth-child(2) { animation-delay: 1.1s; }
+.hero-stat:nth-child(3) { animation-delay: 1.2s; }
+.hero-stat:nth-child(4) { animation-delay: 1.3s; }
+
+/* ── Section Title Underline ─────────────────────────────── */
+@keyframes underlineGrow {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+.section-header.revealed h2::after {
+  animation: underlineGrow 0.5s cubic-bezier(0.4,0,0.2,1) 0.4s both;
+}
+
+/* ── Number Counter ──────────────────────────────────────── */
+.counter-num {
+  display: inline-block;
+  transition: all 0.1s linear;
+}
+
+/* ── Pulse Rings (on icons) ──────────────────────────────── */
+@keyframes pulseRing {
+  0%   { transform: scale(1);   opacity: 0.6; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+.pulse-icon {
+  position: relative;
+  display: inline-flex;
+}
+.pulse-icon::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: var(--color-secondary);
+  animation: pulseRing 2s ease-out infinite;
+  pointer-events: none;
+}
+
+/* ── Floating Animation ──────────────────────────────────── */
+@keyframes floatY {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-12px); }
+}
+.float-anim { animation: floatY 4s ease-in-out infinite; }
+
+/* ── Shimmer Loading ─────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+.shimmer {
+  background: linear-gradient(90deg,
+    var(--color-bg) 25%,
+    rgba(212,160,23,.08) 50%,
+    var(--color-bg) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite;
+}
+
+/* ── Page Transition ─────────────────────────────────────── */
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.page-enter { animation: pageEnter 0.55s cubic-bezier(0.4,0,0.2,1) both; }
+
+/* ── Glowing Border on Hover ─────────────────────────────── */
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 0 1px var(--color-secondary), 0 0 20px rgba(212,160,23,.2); }
+  50%       { box-shadow: 0 0 0 1px var(--color-secondary), 0 0 40px rgba(212,160,23,.4); }
+}
+.card:hover, .service-card:hover, .feature-card:hover { animation: glowPulse 2s ease infinite; }
+
+/* ── Typewriter Cursor ───────────────────────────────────── */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+.typewriter-cursor {
+  display: inline-block;
+  width: 3px;
+  height: 1em;
+  background: var(--color-secondary);
+  margin-left: 2px;
+  animation: blink 0.8s ease infinite;
+  vertical-align: middle;
+}
+
+/* ── Why Feature Hover Line ──────────────────────────────── */
+.why-feature {
+  position: relative;
+  overflow: hidden;
+}
+.why-feature::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  height: 2px; width: 0%;
+  background: var(--color-secondary);
+  transition: width 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+.why-feature:hover::before { width: 100%; }
+
+/* ── Stat Number Pop ─────────────────────────────────────── */
+@keyframes numPop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+.stat-num.popped { animation: numPop 0.4s cubic-bezier(0.34,1.56,0.64,1); }
+
+/* ── Logo Mark Spin (on load) ────────────────────────────── */
+@keyframes spinIn {
+  from { transform: rotate(-180deg) scale(0); opacity: 0; }
+  to   { transform: rotate(0deg) scale(1); opacity: 1; }
+}
+.logo-mark { animation: spinIn 0.7s cubic-bezier(0.34,1.56,0.64,1) 0.2s both; }
+
+/* ── Gold Particle Background ────────────────────────────── */
+.particle-field {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--color-secondary);
+  opacity: 0.15;
+  animation: particleDrift linear infinite;
+}
+@keyframes particleDrift {
+  0%   { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10%  { opacity: 0.15; }
+  90%  { opacity: 0.12; }
+  100% { transform: translateY(-20px) rotate(360deg); opacity: 0; }
+}
+
+/* ── Tag Badge Entrance ──────────────────────────────────── */
+@keyframes tagPop {
+  from { transform: scale(0) rotate(-10deg); opacity: 0; }
+  to   { transform: scale(1) rotate(0deg);   opacity: 1; }
+}
+.program-tag { animation: tagPop 0.4s cubic-bezier(0.34,1.56,0.64,1) 0.3s both; }
+
+/* ── Ticker Pause on Hover ───────────────────────────────── */
+.ticker-track:hover { animation-play-state: paused; }
+
+/* ── Mobile Nav Link Stagger ─────────────────────────────── */
+.mobile-nav a {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: color 0.2s, opacity 0.4s cubic-bezier(0.4,0,0.2,1), transform 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+.mobile-nav.open a { opacity: 1; transform: translateY(0); }
+.mobile-nav.open a:nth-child(1) { transition-delay: 0.05s; }
+.mobile-nav.open a:nth-child(2) { transition-delay: 0.10s; }
+.mobile-nav.open a:nth-child(3) { transition-delay: 0.15s; }
+.mobile-nav.open a:nth-child(4) { transition-delay: 0.20s; }
+.mobile-nav.open a:nth-child(5) { transition-delay: 0.25s; }
+.mobile-nav.open a:nth-child(6) { transition-delay: 0.30s; }
+.mobile-nav.open a:nth-child(7) { transition-delay: 0.35s; }
+.mobile-nav.open a:nth-child(8) { transition-delay: 0.40s; }
+.mobile-nav.open .btn           { opacity: 1; transform: translateY(0); transition-delay: 0.45s; }
+
+/* ── Reduce motion ───────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  [data-reveal] { opacity: 1; transform: none; }
+}

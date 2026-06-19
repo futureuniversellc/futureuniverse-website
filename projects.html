@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta name="description" content="Future Universe Projects & Gallery — Education, HR, construction, and flooring project showcase from Oman's premier corporate group."/>
+  <title>Projects & Gallery | Future Universe</title>
+  <link rel="stylesheet" href="css/main.css"/>
+  <link rel="stylesheet" href="css/components.css"/>
+  <link rel="stylesheet" href="css/animations.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    .gallery-item { display: block; }
+    .gallery-item[data-category]:not([data-category="all"]) { }
+  </style>
+</head>
+<body>
+<div id="progress-bar"></div><div id="cursor-dot"></div><div id="cursor-ring"></div>
+
+<div class="top-bar"><div class="container"><div class="top-bar-left"><a href="mailto:info@futureuniverse.co"><i class="fa-solid fa-envelope"></i> info@futureuniverse.co</a><a href="tel:+96812345678"><i class="fa-solid fa-phone"></i> +968 1234 5678</a><a href="#"><i class="fa-solid fa-location-dot"></i> Muscat, Sultanate of Oman</a></div><div class="top-bar-right"><a href="#"><i class="fa-brands fa-facebook-f"></i></a><a href="#"><i class="fa-brands fa-linkedin-in"></i></a><a href="#"><i class="fa-brands fa-instagram"></i></a></div></div></div>
+
+<nav class="navbar"><div class="container">
+  <a href="index.html" class="logo"><div class="logo-mark">FU</div><div class="logo-text"><span class="logo-name">FUTURE UNIVERSE</span><span class="logo-tagline">Empowering People. Building Futures.</span></div></a>
+  <div class="nav-links"><a href="index.html">Home</a><a href="about.html">About Us</a><div class="nav-dropdown"><a href="#">Services <i class="fa-solid fa-chevron-down"></i></a><div class="dropdown-menu"><a href="education.html"><i class="fa-solid fa-graduation-cap"></i> Education & Training</a><a href="hr.html"><i class="fa-solid fa-users"></i> Human Resources</a><a href="construction.html"><i class="fa-solid fa-building"></i> Construction Solutions</a><a href="flooring.html"><i class="fa-solid fa-layer-group"></i> Flooring Solutions</a></div></div><a href="projects.html" class="active">Projects</a><a href="blog.html">Blog</a><a href="contact.html">Contact Us</a></div>
+  <div class="nav-cta"><a href="contact.html" class="btn btn-primary btn-sm"><i class="fa-solid fa-paper-plane"></i> Get in Touch</a></div>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</div></nav>
+
+<div class="mobile-nav" id="mobile-nav"><div class="mobile-nav-close" id="mobile-nav-close"><i class="fa-solid fa-xmark"></i></div><a href="index.html">Home</a><a href="about.html">About Us</a><a href="education.html">Education</a><a href="hr.html">Human Resources</a><a href="construction.html">Construction</a><a href="flooring.html">Flooring</a><a href="projects.html">Projects</a><a href="contact.html">Contact Us</a><a href="contact.html" class="btn btn-primary">Request Consultation</a></div>
+
+<section class="page-hero" style="background-image:url('images/construction_banner.png');">
+  <div class="container page-hero-content">
+    <h1>Projects &amp; Gallery</h1>
+    <p style="color:rgba(255,255,255,.75);font-size:1.1rem;margin-bottom:16px;">A showcase of our work across all four divisions</p>
+    <div class="breadcrumb"><a href="index.html">Home</a><i class="fa-solid fa-chevron-right"></i><span>Projects</span></div>
+  </div>
+</section>
+
+<section class="stats-section" style="padding:50px 0;">
+  <div class="container"><div class="stats-grid">
+    <div class="stat-item" data-reveal="fade-up" data-delay="100"><div class="stat-icon"><i class="fa-solid fa-graduation-cap"></i></div><div class="stat-num"><span data-counter data-target="120" data-suffix="+">120+</span></div><div class="stat-label">Training Programs</div></div>
+    <div class="stat-item" data-reveal="fade-up" data-delay="200"><div class="stat-icon"><i class="fa-solid fa-users"></i></div><div class="stat-num"><span data-counter data-target="80" data-suffix="+">80+</span></div><div class="stat-label">HR Projects</div></div>
+    <div class="stat-item" data-reveal="fade-up" data-delay="300"><div class="stat-icon"><i class="fa-solid fa-building"></i></div><div class="stat-num"><span data-counter data-target="90" data-suffix="+">90+</span></div><div class="stat-label">Construction Projects</div></div>
+    <div class="stat-item" data-reveal="fade-up" data-delay="400"><div class="stat-icon"><i class="fa-solid fa-layer-group"></i></div><div class="stat-num"><span data-counter data-target="200" data-suffix="+">200+</span></div><div class="stat-label">Flooring Installations</div></div>
+  </div></div>
+</section>
+
+<section class="section-py" style="background:var(--color-bg);">
+  <div class="container">
+    <div class="section-header" data-reveal="fade-up">
+      <span class="section-label">Our Portfolio</span>
+      <h2>Project Gallery</h2>
+      <p>Browse our portfolio of completed projects across education, HR, construction, and flooring.</p>
+    </div>
+
+    <!-- Filters -->
+    <div class="gallery-filters" data-reveal="fade-up" data-delay="100">
+      <button class="filter-btn active" data-filter="all">All Projects</button>
+      <button class="filter-btn" data-filter="education">Education</button>
+      <button class="filter-btn" data-filter="hr">Human Resources</button>
+      <button class="filter-btn" data-filter="construction">Construction</button>
+      <button class="filter-btn" data-filter="flooring">Flooring</button>
+    </div>
+
+    <!-- Masonry Gallery -->
+    <div class="gallery-grid">
+      <div class="gallery-item" data-category="education" data-reveal="fade-in" data-delay="100">
+        <img src="images/education_banner.png" alt="Corporate Training Workshop"/>
+        <div class="gallery-item-overlay"><i class="fa-solid fa-expand"></i><span>Corporate Training Workshop</span></div>
+      </div>
+      <div class="gallery-item" data-category="construction" data-reveal="fade-in" data-delay="150">
+        <img src="images/construction_banner.png" alt="Commercial Building Project" style="height:380px;object-fit:cover;"/>
+        <div class="gallery-item-overlay"><i class="fa-solid fa-expand"></i><span>Commercial Building Project</span></div>
+      </div>
+      <div class="gallery-item" data-category="flooring" data-reveal="fade-in" data-delay="200">
+        <img src="images/flooring_banner.png" alt="Epoxy Flooring Installation"/>
+        <div class="gallery-item-overlay"><i class="fa-solid fa-expand"></i><span>Epoxy Flooring Installation</span></div>
+      </div>
+      <div class="gallery-item" data-category="hr" data-reveal="fade-in" data-delay="250">
+        <img src="images/hr_banner.png" alt="HR Recruitment Drive" style="height:300px;object-fit:cover;"/>
+        <div class="gallery-item-overlay"><i class="fa-solid fa-expand"></i><span>HR Recruitment Drive</span></div>
+      </div>
+      <div class="gallery-item" data-category="education" data-reveal="fade-in" data-delay="300">
+        <img src="images/education_banner.png" alt="Leadership Program" style="height:280px;object-fit:cover;"/>
+        <div class="gallery-item-overlay"><i class="fa-solid fa-expand"></i><span>Leadership Program</span></div>
+      </div>
+      <div class="gallery-item" data-category="flooring" data-reveal="fade-in" data-delay="350">
+        <img src="images/flooring_banner.png" alt="Industrial Floor System" style="height:340px;object-fit:cover;"/>
+        <div class="gallery-item-overlay"><i class="fa-solid fa-expand"></i><span>Industrial Floor System</span></div>
+      </div>
+      <div class="gallery-item" data-category="construction" data-reveal="fade-in" data-delay="400">
+        <img src="images/construction_banner.png" alt="Residential Villa Project"/>
+        <div class="gallery-item-overlay"><i class="fa-solid fa-expand"></i><span>Residential Villa Project</span></div>
+      </div>
+      <div class="gallery-item" data-category="hr" data-reveal="fade-in" data-delay="450">
+        <img src="images/hr_banner.png" alt="Employee Development Event"/>
+        <div class="gallery-item-overlay"><i class="fa-solid fa-expand"></i><span>Employee Development Event</span></div>
+      </div>
+      <div class="gallery-item" data-category="education" data-reveal="fade-in" data-delay="500">
+        <img src="images/education_banner.png" alt="IT Skills Workshop" style="height:260px;object-fit:cover;"/>
+        <div class="gallery-item-overlay"><i class="fa-solid fa-expand"></i><span>IT Skills Workshop</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section"><div class="cta-glow-1"></div><div class="cta-glow-2"></div>
+  <div class="container cta-content" data-reveal="fade-up">
+    <h2>Want to Be Our Next Success Story?</h2>
+    <p>Join hundreds of organizations that trust Future Universe to deliver excellence across education, HR, construction, and flooring.</p>
+    <div class="cta-btns"><a href="contact.html" class="btn btn-primary btn-lg"><i class="fa-solid fa-paper-plane"></i> Start a Project</a><a href="about.html" class="btn btn-outline-white btn-lg"><i class="fa-solid fa-circle-info"></i> About Us</a></div>
+  </div>
+</section>
+
+<footer class="footer"><div class="container"><div class="footer-grid"><div><div class="footer-logo"><a href="index.html" class="logo"><div class="logo-mark">FU</div><div class="logo-text"><span class="logo-name">FUTURE UNIVERSE</span><span class="logo-tagline">Empowering People. Building Futures.</span></div></a></div><p class="footer-desc">Empowering individuals and organizations through education, HR, construction &amp; flooring excellence.</p><div class="footer-social"><a href="#"><i class="fa-brands fa-facebook-f"></i></a><a href="#"><i class="fa-brands fa-linkedin-in"></i></a><a href="#"><i class="fa-brands fa-instagram"></i></a><a href="#"><i class="fa-brands fa-youtube"></i></a></div></div><div class="footer-col"><h5>Quick Links</h5><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About Us</a></li><li><a href="projects.html">Projects</a></li><li><a href="contact.html">Contact Us</a></li></ul></div><div class="footer-col"><h5>Our Services</h5><ul><li><a href="education.html">Education &amp; Training</a></li><li><a href="hr.html">Human Resource Solutions</a></li><li><a href="construction.html">Construction Solutions</a></li><li><a href="flooring.html">Flooring Solutions</a></li></ul></div><div class="footer-col"><h5>Contact Us</h5><div class="footer-contact-item"><div class="footer-contact-icon"><i class="fa-solid fa-location-dot"></i></div><div class="text"><strong>Address</strong>Muscat, Sultanate of Oman</div></div><div class="footer-contact-item"><div class="footer-contact-icon"><i class="fa-solid fa-phone"></i></div><div class="text"><strong>Phone</strong>+968 1234 5678</div></div><div class="footer-contact-item"><div class="footer-contact-icon"><i class="fa-solid fa-envelope"></i></div><div class="text"><strong>Email</strong>info@futureuniverse.co</div></div></div></div><div class="footer-bottom"><span>© 2024 Future Universe. All Rights Reserved.</span><div class="footer-bottom-links"><a href="#">Privacy Policy</a><a href="#">Terms &amp; Conditions</a></div></div></div></footer>
+
+<button id="back-to-top"><i class="fa-solid fa-arrow-up"></i></button>
+<div id="lightbox" class="lightbox"><img id="lightbox-img" src="" alt=""/><button class="lightbox-close"><i class="fa-solid fa-xmark"></i></button></div>
+<script src="js/main.js"></script><script src="js/counter.js"></script><script src="js/gallery.js"></script>
+</body></html>
