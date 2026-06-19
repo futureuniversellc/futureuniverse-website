@@ -222,6 +222,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
+// ── Anti-Theft Protection ──────────────────────────────────
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('keydown', e => {
+  if (
+    e.key === 'F12' || 
+    (e.ctrlKey && e.shiftKey && ['I', 'i', 'J', 'j', 'C', 'c'].includes(e.key)) ||
+    (e.ctrlKey && ['U', 'u', 'S', 's'].includes(e.key)) ||
+    (e.metaKey && e.altKey && ['I', 'i', 'J', 'j', 'U', 'u'].includes(e.key)) ||
+    (e.metaKey && ['S', 's'].includes(e.key))
+  ) {
+    e.preventDefault();
+  }
+});
+
+// Disable text selection, except for form inputs
+document.body.style.userSelect = 'none';
+document.body.style.webkitUserSelect = 'none';
+document.addEventListener('selectstart', e => {
+  if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+    e.preventDefault();
+  }
+});
+
 // ── Hero Slider Logic ──────────────────────────────────────
 function initHeroSlider() {
   const slides  = document.querySelectorAll('.hero-slide');
