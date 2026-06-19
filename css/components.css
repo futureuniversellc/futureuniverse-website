@@ -37,27 +37,33 @@
 .top-bar-right a:hover { color: var(--color-secondary); }
 
 /* ══════════════════════════════════════════════════════════
-   NAVBAR
+   NAVBAR (Floating Glass Pill)
 ══════════════════════════════════════════════════════════ */
 .navbar {
   position: sticky;
-  top: 0;
+  top: 20px;
   z-index: 1000;
-  background: var(--color-primary);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255,255,255,.06);
+  margin: 0 auto;
+  max-width: 1200px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-sm);
   transition: var(--transition);
 }
 .navbar.scrolled {
-  box-shadow: 0 4px 40px rgba(0,0,0,.35);
-  background: rgba(11,31,58,.97);
+  box-shadow: var(--shadow-md);
+  background: rgba(5, 8, 17, 0.7);
+  top: 10px;
 }
 .navbar .container {
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 72px;
+  padding: 0 32px;
 }
 
 /* Logo */
@@ -395,9 +401,12 @@
    SERVICE CARDS (Main Divisions)
 ══════════════════════════════════════════════════════════ */
 .service-card {
-  background: var(--color-white);
-  border: 1px solid var(--color-border-light);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
   border-radius: var(--radius-md);
+  box-shadow: var(--glass-shadow);
   overflow: hidden;
   transition: var(--transition);
   cursor: pointer;
@@ -442,8 +451,8 @@
 .service-card-link i { transition: transform 0.25s; }
 .service-card:hover .service-card-link i { transform: translateX(5px); }
 .service-card:hover {
-  border-color: var(--color-secondary);
-  box-shadow: 0 0 0 1px var(--color-secondary), 0 24px 60px rgba(11,31,58,.14);
+  border-color: var(--glass-border-light);
+  box-shadow: var(--shadow-lg), var(--glow-gold);
   transform: translateY(-8px);
 }
 
@@ -494,8 +503,11 @@
   margin-top: 48px;
 }
 .why-feature {
-  background: rgba(255,255,255,.04);
-  border: 1px solid rgba(255,255,255,.08);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  box-shadow: var(--glass-shadow);
   border-radius: var(--radius-md);
   padding: 28px 24px;
   display: flex;
@@ -505,9 +517,9 @@
 }
 .why-feature:hover {
   background: rgba(212,160,23,.08);
-  border-color: rgba(212,160,23,.25);
-  transform: translateY(-4px);
-  box-shadow: 0 0 0 1px rgba(212,160,23,.2), 0 16px 40px rgba(0,0,0,.3);
+  border-color: rgba(212,160,23,.3);
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lg), var(--glow-gold);
 }
 .why-feature-icon {
   width: 48px; height: 48px; flex-shrink: 0;
@@ -640,16 +652,19 @@
   gap: 28px;
 }
 .feature-card {
-  background: var(--color-white);
-  border: 1px solid var(--color-border-light);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  box-shadow: var(--glass-shadow);
   border-radius: var(--radius-md);
   padding: 34px 28px;
   text-align: center;
   transition: var(--transition);
 }
 .feature-card:hover {
-  border-color: var(--color-secondary);
-  box-shadow: 0 0 0 1px var(--color-secondary), var(--shadow-lg);
+  border: var(--glass-border-light);
+  box-shadow: var(--shadow-lg), var(--glow-gold);
   transform: translateY(-6px);
 }
 .feature-card-icon {
@@ -684,15 +699,18 @@
 }
 .testimonial-card {
   flex: 0 0 calc(33.333% - 20px);
-  background: var(--color-white);
-  border: 1px solid var(--color-border-light);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  box-shadow: var(--glass-shadow);
   border-radius: var(--radius-md);
   padding: 36px 30px;
   transition: var(--transition);
 }
 .testimonial-card:hover {
-  border-color: var(--color-secondary);
-  box-shadow: 0 0 0 1px var(--color-secondary), var(--shadow-md);
+  border: var(--glass-border-light);
+  box-shadow: var(--shadow-lg), var(--glow-gold);
   transform: translateY(-4px);
 }
 .testimonial-stars { color: var(--color-secondary); margin-bottom: 18px; font-size: 1rem; letter-spacing: 2px; }
