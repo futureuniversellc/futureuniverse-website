@@ -1,21 +1,27 @@
 const fs = require('fs');
 const path = require('path');
+const files = fs.readdirSync('.').filter(f => f.endsWith('.html'));
 
-const dir = 'c:\\Users\\sajha\\OneDrive\\Desktop\\FutureUniverse';
-const files = fs.readdirSync(dir).filter(f => f.endsWith('.html'));
-
-files.forEach(file => {
-  const filePath = path.join(dir, file);
-  let content = fs.readFileSync(filePath, 'utf8');
+files.forEach(f => {
+  let content = fs.readFileSync(f, 'utf8');
   
-  // Remove the specific inline background styles
-  content = content.replace(/ style="background:var\(--color-(?:bg|white|primary)\);"/g, '');
-  content = content.replace(/<div style="background:var\(--color-primary\);padding:0;">/g, '<div style="padding:0;">');
-  
-  // Also check contact.html hardcoded color
-  content = content.replace(/color:var\(--color-primary\);/g, 'color:var(--color-white);');
+  // Remove Top Bar completely
+  const topBarRegex = /<!-- ═══════════════════════════════════════════════\r?\n\s*TOP BAR\r?\n═══════════════════════════════════════════════ -->\r?\n<div class="top-bar">[\s\S]*?<\/div>\r?\n<\/div>/;
+  content = content.replace(topBarRegex, '');
 
-  fs.writeFileSync(filePath, content);
+  // Add contact info to nav-cta
+  const ctaRegex = /<div class="nav-cta">\r?\n\s*<a href="contact\.html" class="btn btn-primary btn-sm">/g;
+  const newCta = `<div class="nav-cta">
+      <a href="mailto:info@futureuniverse.co" class="btn btn-outline-white btn-sm" style="margin-right: 8px; border-color: rgba(255,255,255,0.15); color: rgba(255,255,255,0.85); padding: 8px 16px;">
+        <i class="fa-solid fa-envelope"></i>
+      </a>
+      <a href="tel:+96812345678" class="btn btn-outline-white btn-sm" style="margin-right: 8px; border-color: rgba(255,255,255,0.15); color: rgba(255,255,255,0.85); padding: 8px 16px;">
+        <i class="fa-solid fa-phone"></i> +968 1234 5678
+      </a>
+      <a href="contact.html" class="btn btn-primary btn-sm">`;
+      
+  content = content.replace(ctaRegex, newCta);
+  
+  fs.writeFileSync(f, content);
+  console.log('Updated ' + f);
 });
-
-console.log('HTML files fixed!');

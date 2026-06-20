@@ -64,7 +64,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const href = a.getAttribute('href');
     if (href === currentPage || (currentPage === '' && href === 'index.html')) {
       a.classList.add('active');
+      
+      // If inside a dropdown, also highlight the parent dropdown link
+      const dropdown = a.closest('.nav-dropdown');
+      if (dropdown) {
+        const parentLink = dropdown.querySelector('a');
+        if (parentLink) parentLink.classList.add('active');
+      }
     }
+  });
+
+  // ── Dropdown Click Handling (Prevent Jump) ────────────────
+  document.querySelectorAll('.nav-dropdown > a').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault(); // Prevents jumping to top of page
+    });
   });
 
   // ── Mobile Navigation ─────────────────────────────────────
@@ -212,10 +226,16 @@ document.addEventListener('DOMContentLoaded', () => {
   // ── Smooth Scroll for Anchors ─────────────────────────────
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
-      const target = document.querySelector(a.getAttribute('href'));
-      if (target) {
-        e.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const href = a.getAttribute('href');
+      if (href === '#') return; // Handled by other listeners or ignore empty anchor
+      try {
+        const target = document.querySelector(href);
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      } catch (err) {
+        // Invalid selector, ignore
       }
     });
   });
@@ -310,11 +330,13 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ── Global Hero 3D Parallax ────────────────────────────────
-  const heroText = document.querySelector('.hero-text-3d');
+  const heroContent = document.querySelector('.hero-content');
   const heroBg = document.querySelector('.hero-bg');
   const particleField = document.querySelector('.particle-field');
+  const heroStats = document.querySelector('.hero-stats');
+  const heroScroll = document.querySelector('.hero-scroll');
   
-  if (heroText || heroBg || particleField) {
+  if (heroContent || heroBg || particleField) {
     let mouseX = 0, mouseY = 0;
     let currentX = 0, currentY = 0;
     
@@ -329,25 +351,94 @@ document.addEventListener('DOMContentLoaded', () => {
       currentX += (mouseX - currentX) * 0.03;
       currentY += (mouseY - currentY) * 0.03;
       
-      // 1. Text tilts towards mouse
-      if (heroText) {
-        heroText.style.transform = `perspective(1000px) rotateX(${currentY * -15}deg) rotateY(${currentX * 15}deg)`;
+      const scrollY = window.scrollY || 0;
+      const opacity = Math.max(0, 1 - scrollY / 400);
+      
+      // 1. Text container tilts towards mouse and translates down on scroll
+      if (heroContent) {
+        heroContent.style.transform = `translateY(${scrollY * 0.35}px) perspective(1000px) rotateX(${currentY * -10}deg) rotateY(${currentX * 10}deg)`;
+        heroContent.style.opacity = opacity;
+      }
+      
+      // Also apply parallax and fade out to stats and scroll indicator to prevent overlapping
+      if (heroStats) {
+        heroStats.style.transform = `translateY(${scrollY * 0.35}px)`;
+        heroStats.style.opacity = opacity;
+      }
+      if (heroScroll) {
+        heroScroll.style.transform = `translateY(${scrollY * 0.35}px)`;
+        heroScroll.style.opacity = opacity;
       }
       
       // 2. Background shifts away from mouse (Deep background layer)
       if (heroBg) {
-        heroBg.style.transform = `scale(1.05) translate(${currentX * -25}px, ${currentY * -25}px)`;
+        heroBg.style.transform = `translateY(${scrollY * 0.15}px) scale(1.05) translate(${currentX * -25}px, ${currentY * -25}px)`;
       }
       
       // 3. Particles shift away from mouse, but less than bg (Midground layer)
       if (particleField) {
-        particleField.style.transform = `scale(1.05) translate(${currentX * -12}px, ${currentY * -12}px)`;
+        particleField.style.transform = `translateY(${scrollY * 0.25}px) scale(1.05) translate(${currentX * -12}px, ${currentY * -12}px)`;
       }
 
       requestAnimationFrame(updateParallax);
     }
     updateParallax();
   }
+
+  // ── Subtle 3D Tilt Card Effect (About Image & similar) ────
+  document.querySelectorAll('.about-img-wrap').forEach(wrap => {
+    const img = wrap.querySelector('.about-img-main');
+    const badge = wrap.querySelector('.about-exp-badge');
+    
+    // Add a soft glare/shine overlay
+    const glare = document.createElement('div');
+    glare.style.cssText = `
+      position: absolute; inset: 0; z-index: 3;
+      border-radius: inherit; pointer-events: none;
+      background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.08) 0%, transparent 60%);
+      opacity: 0; transition: opacity 0.4s ease;
+    `;
+    if (img) img.appendChild(glare);
+    
+    wrap.style.perspective = '1000px';
+    wrap.style.transformStyle = 'preserve-3d';
+    
+    wrap.addEventListener('mousemove', e => {
+      const rect = wrap.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width;
+      const y = (e.clientY - rect.top) / rect.height;
+      
+      const rotateX = (y - 0.5) * -8;   // subtle ±4 degrees
+      const rotateY = (x - 0.5) * 8;
+      
+      if (img) {
+        img.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.01)`;
+        img.style.transition = 'transform 0.15s ease-out';
+      }
+      
+      // Badge lifts slightly towards user
+      if (badge) {
+        badge.style.transform = `translateZ(25px) rotateX(${rotateX * 0.3}deg) rotateY(${rotateY * 0.3}deg)`;
+        badge.style.transition = 'transform 0.15s ease-out';
+      }
+      
+      // Soft glare follows cursor
+      glare.style.opacity = '1';
+      glare.style.background = `radial-gradient(circle at ${x * 100}% ${y * 100}%, rgba(255,255,255,0.1) 0%, transparent 55%)`;
+    });
+    
+    wrap.addEventListener('mouseleave', () => {
+      if (img) {
+        img.style.transform = 'rotateX(0) rotateY(0) scale(1)';
+        img.style.transition = 'transform 0.6s cubic-bezier(0.23,1,0.32,1)';
+      }
+      if (badge) {
+        badge.style.transform = 'translateZ(0) rotateX(0) rotateY(0)';
+        badge.style.transition = 'transform 0.6s cubic-bezier(0.23,1,0.32,1)';
+      }
+      glare.style.opacity = '0';
+    });
+  });
 
 });
 

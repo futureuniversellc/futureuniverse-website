@@ -5,46 +5,15 @@
 
 
 /* ══════════════════════════════════════════════════════════
-   TOP BAR
-══════════════════════════════════════════════════════════ */
-.top-bar {
-  background: transparent;
-  padding: 9px 0;
-  border-bottom: 1px solid rgba(212,160,23,.15);
-}
-.top-bar .container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-.top-bar-left, .top-bar-right {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-}
-.top-bar a {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 0.82rem;
-  color: rgba(255,255,255,.72);
-  transition: var(--transition-fast);
-}
-.top-bar a:hover { color: var(--color-secondary); }
-.top-bar a i { font-size: 0.78rem; color: var(--color-secondary); }
-.top-bar-right a { color: rgba(255,255,255,.72); }
-.top-bar-right a:hover { color: var(--color-secondary); }
-
-/* ══════════════════════════════════════════════════════════
    NAVBAR (Floating Glass Pill)
 ══════════════════════════════════════════════════════════ */
 .navbar {
-  position: sticky;
-  top: 20px;
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 1000;
-  margin: 0 auto;
+  width: calc(100% - 40px);
   max-width: 1200px;
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
@@ -306,6 +275,7 @@
   position: relative;
   z-index: 2;
   max-width: 750px;
+  margin-top: -80px;
 }
 .hero-badge {
   display: inline-flex;
@@ -631,14 +601,25 @@
 ══════════════════════════════════════════════════════════ */
 .about-img-wrap {
   position: relative;
+  perspective: 800px;
+  transform-style: preserve-3d;
 }
 .about-img-main {
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow-lg);
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.23,1,0.32,1),
+              box-shadow 0.5s ease;
+  will-change: transform;
 }
 .about-img-main img { width: 100%; height: 480px; object-fit: cover; }
+.about-img-wrap:hover .about-img-main {
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 20px rgba(212,160,23,0.08);
+}
 .about-exp-badge {
+  transform-style: preserve-3d;
+  will-change: transform;
   position: absolute;
   bottom: -24px; right: -24px;
   background: var(--color-secondary);
