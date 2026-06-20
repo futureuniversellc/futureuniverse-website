@@ -35,9 +35,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Listen to mousemove on the window for a global subtle effect, or on the container
     document.addEventListener('mousemove', (e) => {
-      // Calculate cursor position relative to center of screen
-      const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
-      const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+      // Calculate cursor position relative to center of screen (higher divisor = less tilt)
+      const xAxis = (window.innerWidth / 2 - e.pageX) / 100;
+      const yAxis = (window.innerHeight / 2 - e.pageY) / 100;
       
       // Apply the 3D tilt
       text.style.transform = `perspective(1000px) rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
