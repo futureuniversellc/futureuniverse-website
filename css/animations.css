@@ -34,6 +34,9 @@
 [data-delay="450"] { transition-delay: 0.45s !important; }
 [data-delay="500"] { transition-delay: 0.50s !important; }
 [data-delay="600"] { transition-delay: 0.60s !important; }
+[data-delay="700"] { transition-delay: 0.70s !important; }
+[data-delay="800"] { transition-delay: 0.80s !important; }
+[data-delay="900"] { transition-delay: 0.90s !important; }
 
 /* ── Hero Entrance ───────────────────────────────────────── */
 @keyframes heroFadeUp {

@@ -121,6 +121,25 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
 
+  // Auto-inject data-reveal to major components if they don't have it
+  const autoRevealSelectors = [
+    '.card', '.service-card', '.feature-card', '.why-feature', 
+    '.blog-card', '.gallery-item', '.stat-item', '.program-card', 
+    '.project-card', '.service-detail-card', '.about-img-main', 
+    '.section-header', '.contact-card', '.contact-info-card',
+    '.footer-col', '.footer-logo'
+  ].join(':not([data-reveal]), ') + ':not([data-reveal])';
+
+  document.querySelectorAll(autoRevealSelectors).forEach((el, index) => {
+    el.setAttribute('data-reveal', 'fade-up');
+    // Give grid items a staggered delay based on their index if they share a parent
+    const parentChildren = Array.from(el.parentElement.children);
+    const childIndex = parentChildren.indexOf(el);
+    if (childIndex > 0 && childIndex < 10) {
+      el.setAttribute('data-delay', childIndex * 100);
+    }
+  });
+
   document.querySelectorAll('[data-reveal]').forEach(el => revealObserver.observe(el));
 
   // ── Testimonial Slider ────────────────────────────────────
