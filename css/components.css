@@ -1285,17 +1285,21 @@
   .program-grid { grid-template-columns: repeat(2,1fr); }
   .testimonial-card { flex: 0 0 calc(50% - 14px); }
   .service-detail-grid { grid-template-columns: repeat(2,1fr); }
-  .navbar { width: calc(100% - 28px); }
-  .navbar .container { padding: 0 24px; height: 66px; }
   .hero-content { max-width: 650px; }
   .about-img-main img { height: 400px; }
   .cta-section { padding: 80px 0; }
 }
 
-/* ── Tablet Portrait (601px–768px) ───────────────────────── */
-@media (max-width: 768px) {
+/* ── Tablet / Small Laptop Navbar Breakpoint (1200px) ────── */
+@media (max-width: 1200px) {
   .nav-links, .nav-cta { display: none; }
   .hamburger { display: flex; }
+  .navbar { width: calc(100% - 28px); }
+  .navbar .container { padding: 0 24px; height: 66px; }
+}
+
+/* ── Tablet Portrait (601px–768px) ───────────────────────── */
+@media (max-width: 768px) {
   .top-bar-left { display: none; }
   .navbar { width: calc(100% - 24px); top: 8px; }
   .navbar .container { height: 60px; padding: 0 18px; }
