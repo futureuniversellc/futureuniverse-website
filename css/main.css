@@ -227,6 +227,7 @@ p  { color: var(--color-text-muted); font-size: 1.05rem; line-height: 1.85; font
 .page-hero {
   position: relative;
   min-height: 440px;
+  padding-top: 80px;
   display: flex;
   align-items: center;
   background-size: cover;

@@ -1292,8 +1292,8 @@
 
 /* ── Tablet / Small Laptop Navbar Breakpoint (1200px) ────── */
 @media (max-width: 1200px) {
-  .nav-links, .nav-cta { display: none; }
-  .hamburger { display: flex; }
+  .nav-links, .nav-cta { display: none !important; }
+  .hamburger { display: flex !important; }
   .navbar { width: calc(100% - 28px); }
   .navbar .container { padding: 0 24px; height: 66px; }
 }
