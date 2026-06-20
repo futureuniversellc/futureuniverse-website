@@ -26,6 +26,26 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // ── 3D Interactive Text Tilt ─────────────────────────────
+  const tiltTexts = document.querySelectorAll('.page-hero-content h1, .hero h1, .hero-text-3d');
+  tiltTexts.forEach(text => {
+    // Add preserve-3d to parent or text
+    text.style.transformStyle = 'preserve-3d';
+    text.style.display = 'inline-block';
+    
+    // Listen to mousemove on the window for a global subtle effect, or on the container
+    document.addEventListener('mousemove', (e) => {
+      // Calculate cursor position relative to center of screen
+      const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+      const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+      
+      // Apply the 3D tilt
+      text.style.transform = `perspective(1000px) rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+    });
+    
+    // Reset on mouse leave if desired, but global mousemove makes it always reactive
+  });
+
   // ── Progress Bar ─────────────────────────────────────────
   const progressBar = document.getElementById('progress-bar');
   function updateProgress() {
