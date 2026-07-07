@@ -20,7 +20,7 @@ files.forEach(f => {
       /<\/div>\s*<\/div>\s*<div class="hero-stats">/,
       `</div>\n    <div class="hero-contact-info" style="margin-top: 40px; display: flex; align-items: center; gap: 24px; font-size: 0.95rem; color: rgba(255,255,255,0.85); font-weight: 500;">
       <span><i class="fa-solid fa-envelope" style="color: var(--color-secondary); margin-right: 8px;"></i> info@futureuniverse.co</span>
-      <span><i class="fa-solid fa-phone" style="color: var(--color-secondary); margin-right: 8px;"></i> +968 1234 5678</span>
+      <span><i class="fa-solid fa-phone" style="color: var(--color-secondary); margin-right: 8px;"></i> +968 94939932</span>
       <span><i class="fa-solid fa-location-dot" style="color: var(--color-secondary); margin-right: 8px;"></i> Muscat, Oman</span>
     </div>\n  </div>\n  <div class="hero-stats">`
     );

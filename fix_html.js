@@ -16,7 +16,7 @@ files.forEach(f => {
         <i class="fa-solid fa-envelope"></i>
       </a>
       <a href="tel:+96812345678" class="btn btn-outline-white btn-sm" style="margin-right: 8px; border-color: rgba(255,255,255,0.15); color: rgba(255,255,255,0.85); padding: 8px 16px;">
-        <i class="fa-solid fa-phone"></i> +968 1234 5678
+        <i class="fa-solid fa-phone"></i> +968 94939932
       </a>
       <a href="contact.html" class="btn btn-primary btn-sm">`;
       
