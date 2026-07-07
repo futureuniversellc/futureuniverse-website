@@ -39,6 +39,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const logoPreviewWrap= document.getElementById('logo-preview-wrap');
   const removeLogo     = document.getElementById('remove-logo');
 
+  const photosUploadZone = document.getElementById('photos-upload-zone');
+  const photosInput      = document.getElementById('photos-input');
+  const photosPreviewWrap= document.getElementById('photos-preview-wrap');
+
   const toast          = document.getElementById('admin-toast');
   const toastMessage   = document.getElementById('toast-message');
 
@@ -48,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let deletingId = null;
   let logoFile = null;
   let existingLogoUrl = null;
+  let projectPhotos = [];
 
   // ── Auth State Listener ────────────────────────────────────
   auth.onAuthStateChanged(user => {
@@ -241,10 +246,12 @@ document.addEventListener('DOMContentLoaded', () => {
     editingId = null;
     logoFile = null;
     existingLogoUrl = null;
+    projectPhotos = [];
     modalTitle.textContent = 'Add New Client';
     clientForm.reset();
     logoPreviewWrap.style.display = 'none';
     uploadZone.style.display = '';
+    renderPhotosPreview();
     clientModal.classList.add('open');
     document.body.style.overflow = 'hidden';
   }
@@ -256,6 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
     editingId = id;
     logoFile = null;
     existingLogoUrl = client.logoUrl || null;
+    projectPhotos = client.projectPhotos || [];
     modalTitle.textContent = 'Edit Client';
 
     document.getElementById('client-id').value = id;
@@ -276,6 +284,8 @@ document.addEventListener('DOMContentLoaded', () => {
       uploadZone.style.display = '';
     }
 
+    renderPhotosPreview();
+
     clientModal.classList.add('open');
     document.body.style.overflow = 'hidden';
   }
@@ -288,6 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
       editingId = null;
       logoFile = null;
       existingLogoUrl = null;
+      projectPhotos = [];
     }, 300);
   }
 
@@ -378,6 +389,105 @@ document.addEventListener('DOMContentLoaded', () => {
     logoInput.value = '';
   });
 
+  // ── Project Photos Upload ──────────────────────────────────
+  photosUploadZone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    photosUploadZone.classList.add('dragover');
+  });
+  photosUploadZone.addEventListener('dragleave', () => {
+    photosUploadZone.classList.remove('dragover');
+  });
+  photosUploadZone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    photosUploadZone.classList.remove('dragover');
+    if (e.dataTransfer.files) {
+      handleProjectPhotos(Array.from(e.dataTransfer.files));
+    }
+  });
+
+  photosInput.addEventListener('change', () => {
+    if (photosInput.files) {
+      handleProjectPhotos(Array.from(photosInput.files));
+    }
+  });
+
+  function handleProjectPhotos(files) {
+    const imageFiles = files.filter(f => f.type.startsWith('image/'));
+    
+    imageFiles.forEach(file => {
+      if (file.size > 5 * 1024 * 1024) {
+        showToast('Each photo must be under 5MB', 'error');
+        return;
+      }
+      
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const MAX_WIDTH = 800; // slightly larger for project photos
+          const MAX_HEIGHT = 800;
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height) {
+            if (width > MAX_WIDTH) {
+              height *= MAX_WIDTH / width;
+              width = MAX_WIDTH;
+            }
+          } else {
+            if (height > MAX_HEIGHT) {
+              width *= MAX_HEIGHT / height;
+              height = MAX_HEIGHT;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          
+          const compressedBase64 = canvas.toDataURL('image/webp', 0.85);
+          projectPhotos.push(compressedBase64);
+          renderPhotosPreview();
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+    
+    photosInput.value = ''; // Reset input
+  }
+
+  function renderPhotosPreview() {
+    photosPreviewWrap.innerHTML = '';
+    if (projectPhotos.length > 0) {
+      photosPreviewWrap.style.display = 'flex';
+      projectPhotos.forEach((photo, index) => {
+        const div = document.createElement('div');
+        div.className = 'photo-preview-item';
+        div.innerHTML = `
+          <img src="${photo}" alt="Project Photo"/>
+          <button type="button" class="photo-preview-remove" data-index="${index}">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        `;
+        photosPreviewWrap.appendChild(div);
+      });
+
+      // Bind remove buttons
+      photosPreviewWrap.querySelectorAll('.photo-preview-remove').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const idx = parseInt(btn.dataset.index);
+          projectPhotos.splice(idx, 1);
+          renderPhotosPreview();
+        });
+      });
+    } else {
+      photosPreviewWrap.style.display = 'none';
+    }
+  }
+
   // ── Save Client ────────────────────────────────────────────
   saveClientBtn.addEventListener('click', async () => {
     const name = document.getElementById('client-name').value.trim();
@@ -409,6 +519,7 @@ document.addEventListener('DOMContentLoaded', () => {
         testimonial: document.getElementById('client-testimonial').value.trim(),
         featured: document.getElementById('client-featured').checked,
         logoUrl,
+        projectPhotos,
         updatedAt: firebase.firestore.FieldValue.serverTimestamp()
       };
 

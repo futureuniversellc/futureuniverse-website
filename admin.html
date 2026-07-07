@@ -228,6 +228,20 @@
           <textarea id="client-description" class="admin-textarea" placeholder="Brief description about the client and the work done..."></textarea>
         </div>
 
+        <!-- Project Photos -->
+        <div class="admin-form-group">
+          <label>Project Photos (Optional)</label>
+          <div class="admin-upload-zone" id="photos-upload-zone">
+            <i class="fa-solid fa-images"></i>
+            <span>Drop project photos here or click to upload</span>
+            <small>PNG, JPG — Max 5MB per image (Multiple allowed)</small>
+            <input type="file" id="photos-input" accept="image/*" multiple/>
+          </div>
+          <div id="photos-preview-wrap" class="photos-preview-container" style="display:none; margin-top:12px;">
+            <!-- Previews will be injected here -->
+          </div>
+        </div>
+
         <!-- Testimonial -->
         <div class="admin-form-group">
           <label for="client-testimonial">Client Testimonial (optional)</label>

@@ -79,6 +79,12 @@ document.addEventListener('DOMContentLoaded', () => {
         <h4>${escapeHtml(client.name)}</h4>
         <span class="client-showcase-industry">${escapeHtml(client.industry || '')}</span>
         ${client.description ? `<p>${escapeHtml(client.description)}</p>` : ''}
+        ${client.projectPhotos && client.projectPhotos.length > 0 ? `
+          <div class="client-showcase-gallery">
+            ${client.projectPhotos.slice(0, 3).map(photo => `<div class="client-gallery-img"><img src="${photo}" loading="lazy"/></div>`).join('')}
+            ${client.projectPhotos.length > 3 ? `<div class="client-gallery-more">+${client.projectPhotos.length - 3}</div>` : ''}
+          </div>
+        ` : ''}
       `;
       showcase.appendChild(card);
     });
