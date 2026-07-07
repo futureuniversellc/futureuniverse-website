@@ -323,16 +323,48 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   function handleLogoFile(file) {
-    if (file.size > 2 * 1024 * 1024) {
-      showToast('Logo must be under 2MB', 'error');
+    if (file.size > 5 * 1024 * 1024) {
+      showToast('Logo must be under 5MB before compression', 'error');
       return;
     }
-    logoFile = file;
+    
     const reader = new FileReader();
     reader.onload = (e) => {
-      logoPreview.src = e.target.result;
-      logoPreviewWrap.style.display = '';
-      uploadZone.style.display = 'none';
+      // Compress the image using canvas
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const MAX_WIDTH = 400;
+        const MAX_HEIGHT = 400;
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width;
+            width = MAX_WIDTH;
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width *= MAX_HEIGHT / height;
+            height = MAX_HEIGHT;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        
+        // Convert back to base64 (webp format for better compression)
+        const compressedBase64 = canvas.toDataURL('image/webp', 0.8);
+        logoFile = compressedBase64; // Store the base64 string instead of the file object
+        
+        logoPreview.src = compressedBase64;
+        logoPreviewWrap.style.display = '';
+        uploadZone.style.display = 'none';
+      };
+      img.src = e.target.result;
     };
     reader.readAsDataURL(file);
   }
@@ -363,13 +395,9 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       let logoUrl = existingLogoUrl || '';
 
-      // Upload logo if new file selected
+      // If a new logo was uploaded (logoFile is now a base64 string)
       if (logoFile) {
-        const ext = logoFile.name.split('.').pop();
-        const fileName = `clients/${Date.now()}_${name.replace(/\s+/g, '_').toLowerCase()}.${ext}`;
-        const ref = storage.ref(fileName);
-        await ref.put(logoFile);
-        logoUrl = await ref.getDownloadURL();
+        logoUrl = logoFile;
       }
 
       const clientData = {
@@ -431,17 +459,6 @@ document.addEventListener('DOMContentLoaded', () => {
     confirmDelete.disabled = true;
 
     try {
-      // Delete logo from storage if exists
-      const client = clients.find(c => c.id === deletingId);
-      if (client?.logoUrl) {
-        try {
-          const logoRef = storage.refFromURL(client.logoUrl);
-          await logoRef.delete();
-        } catch (e) {
-          console.warn('Could not delete logo file:', e);
-        }
-      }
-
       await db.collection('clients').doc(deletingId).delete();
       showToast('Client deleted successfully!');
       confirmOverlay.classList.remove('open');
