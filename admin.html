@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta name="robots" content="noindex, nofollow"/>
+  <title>Admin Panel | Future Universe</title>
+  <link rel="stylesheet" href="css/main.css"/>
+  <link rel="stylesheet" href="css/admin.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body class="admin-body">
+
+<!-- ═══════════════════════════════════════════════
+     LOGIN SCREEN
+═══════════════════════════════════════════════ -->
+<div class="admin-login-wrapper" id="login-screen">
+  <div class="admin-login-card">
+    <a href="index.html" class="logo">
+      <div class="logo-mark">FU</div>
+      <div class="logo-text">
+        <span class="logo-name">FUTURE UNIVERSE</span>
+        <span class="logo-tagline">Admin Panel</span>
+      </div>
+    </a>
+
+    <h2>Welcome Back</h2>
+    <p>Sign in to manage your client portfolio</p>
+
+    <div class="admin-login-error" id="login-error">
+      <i class="fa-solid fa-circle-exclamation"></i>
+      <span id="login-error-text">Invalid email or password</span>
+    </div>
+
+    <form id="login-form">
+      <div class="admin-form-group">
+        <label for="login-email">Email Address</label>
+        <input type="email" id="login-email" class="admin-input" placeholder="admin@futureuniverse.co" required/>
+      </div>
+      <div class="admin-form-group">
+        <label for="login-password">Password</label>
+        <input type="password" id="login-password" class="admin-input" placeholder="Enter your password" required/>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px;">
+        <i class="fa-solid fa-right-to-bracket"></i> Sign In
+      </button>
+    </form>
+
+    <p style="margin-top:24px;font-size:0.8rem;color:rgba(255,255,255,0.3);">
+      <a href="index.html" style="color:var(--color-secondary);">← Back to Website</a>
+    </p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     ADMIN DASHBOARD
+═══════════════════════════════════════════════ -->
+<div class="admin-shell" id="admin-shell">
+
+  <!-- Topbar -->
+  <div class="admin-topbar">
+    <div class="admin-topbar-inner">
+      <a href="index.html" class="logo">
+        <div class="logo-mark">FU</div>
+        <div class="logo-text">
+          <span class="logo-name">FUTURE UNIVERSE</span>
+          <span class="logo-tagline">Admin Panel</span>
+        </div>
+      </a>
+      <div class="admin-topbar-right">
+        <div class="admin-user-info">
+          <div class="admin-user-avatar" id="user-avatar">A</div>
+          <span id="user-email">admin@futureuniverse.co</span>
+        </div>
+        <button class="admin-logout-btn" id="logout-btn">
+          <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dashboard Content -->
+  <div class="admin-content">
+
+    <!-- Header -->
+    <div class="admin-header">
+      <div>
+        <h1>Client Management</h1>
+        <p>Manage your client portfolio and showcase them on the website</p>
+      </div>
+      <button class="btn btn-primary" id="add-client-btn">
+        <i class="fa-solid fa-plus"></i> Add Client
+      </button>
+    </div>
+
+    <!-- Stats -->
+    <div class="admin-stats">
+      <div class="admin-stat-card">
+        <div class="admin-stat-icon"><i class="fa-solid fa-building"></i></div>
+        <div class="admin-stat-num" id="stat-total">0</div>
+        <div class="admin-stat-label">Total Clients</div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="admin-stat-icon"><i class="fa-solid fa-star"></i></div>
+        <div class="admin-stat-num" id="stat-featured">0</div>
+        <div class="admin-stat-label">Featured</div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="admin-stat-icon"><i class="fa-solid fa-layer-group"></i></div>
+        <div class="admin-stat-num" id="stat-industries">0</div>
+        <div class="admin-stat-label">Industries</div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="admin-stat-icon"><i class="fa-solid fa-quote-right"></i></div>
+        <div class="admin-stat-num" id="stat-testimonials">0</div>
+        <div class="admin-stat-label">Testimonials</div>
+      </div>
+    </div>
+
+    <!-- Client List -->
+    <div class="admin-section-header">
+      <h2>All Clients</h2>
+      <div class="admin-search-box">
+        <input type="text" class="admin-search-input" id="search-clients" placeholder="Search clients..."/>
+      </div>
+    </div>
+
+    <div id="clients-container">
+      <div class="admin-loading" id="clients-loading">
+        <div class="admin-spinner"></div>
+      </div>
+      <div class="clients-grid" id="clients-grid"></div>
+      <div class="admin-empty-state" id="empty-state" style="display:none;">
+        <div class="admin-empty-icon"><i class="fa-solid fa-users"></i></div>
+        <h3>No Clients Yet</h3>
+        <p>Start building your client portfolio by adding your first client.</p>
+        <button class="btn btn-primary" id="add-first-client-btn">
+          <i class="fa-solid fa-plus"></i> Add Your First Client
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     ADD/EDIT CLIENT MODAL
+═══════════════════════════════════════════════ -->
+<div class="admin-modal-overlay" id="client-modal">
+  <div class="admin-modal">
+    <div class="admin-modal-header">
+      <h2 id="modal-title">Add New Client</h2>
+      <button class="admin-modal-close" id="modal-close">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="admin-modal-body">
+      <form id="client-form">
+        <input type="hidden" id="client-id"/>
+
+        <!-- Logo Upload -->
+        <div class="admin-form-group">
+          <label>Client Logo</label>
+          <div class="admin-upload-zone" id="upload-zone">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+            <span>Drop logo here or click to upload</span>
+            <small>PNG, JPG, SVG — Max 2MB</small>
+            <input type="file" id="logo-input" accept="image/*"/>
+          </div>
+          <div id="logo-preview-wrap" style="display:none;margin-top:12px;text-align:center;">
+            <img id="logo-preview" class="admin-upload-preview" src="" alt="Preview"/>
+            <button type="button" id="remove-logo" style="margin-top:8px;font-size:0.78rem;color:#fca5a5;cursor:pointer;background:none;border:none;font-family:var(--font-body);">
+              <i class="fa-solid fa-trash"></i> Remove
+            </button>
+          </div>
+        </div>
+
+        <!-- Name & Industry -->
+        <div class="admin-form-row">
+          <div class="admin-form-group">
+            <label for="client-name">Company Name *</label>
+            <input type="text" id="client-name" class="admin-input" placeholder="e.g. Gulf Corp International" required/>
+          </div>
+          <div class="admin-form-group">
+            <label for="client-industry">Industry *</label>
+            <select id="client-industry" class="admin-select" required>
+              <option value="">Select Industry</option>
+              <option value="Oil & Gas">Oil & Gas</option>
+              <option value="Government">Government</option>
+              <option value="Healthcare">Healthcare</option>
+              <option value="Education">Education</option>
+              <option value="Construction">Construction</option>
+              <option value="Hospitality">Hospitality</option>
+              <option value="Logistics">Logistics</option>
+              <option value="Finance">Finance</option>
+              <option value="Technology">Technology</option>
+              <option value="Real Estate">Real Estate</option>
+              <option value="Retail">Retail</option>
+              <option value="Manufacturing">Manufacturing</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Service & Contact -->
+        <div class="admin-form-row">
+          <div class="admin-form-group">
+            <label for="client-service">Service Provided</label>
+            <select id="client-service" class="admin-select">
+              <option value="">Select Service</option>
+              <option value="Education & Training">Education & Training</option>
+              <option value="Human Resources">Human Resources</option>
+              <option value="Construction">Construction</option>
+              <option value="Flooring">Flooring</option>
+              <option value="Multiple Services">Multiple Services</option>
+            </select>
+          </div>
+          <div class="admin-form-group">
+            <label for="client-contact">Contact Person</label>
+            <input type="text" id="client-contact" class="admin-input" placeholder="e.g. Ahmed Al-Kindi, CEO"/>
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="admin-form-group">
+          <label for="client-description">Description</label>
+          <textarea id="client-description" class="admin-textarea" placeholder="Brief description about the client and the work done..."></textarea>
+        </div>
+
+        <!-- Testimonial -->
+        <div class="admin-form-group">
+          <label for="client-testimonial">Client Testimonial (optional)</label>
+          <textarea id="client-testimonial" class="admin-textarea" placeholder="What the client said about your services..." style="min-height:80px;"></textarea>
+        </div>
+
+        <!-- Featured Toggle -->
+        <div class="admin-form-group">
+          <div class="admin-toggle-group">
+            <label class="admin-toggle">
+              <input type="checkbox" id="client-featured"/>
+              <span class="admin-toggle-slider"></span>
+            </label>
+            <span class="admin-toggle-label">Feature on homepage</span>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="admin-modal-footer">
+      <button type="button" class="btn-cancel" id="modal-cancel">Cancel</button>
+      <button type="button" class="btn btn-primary" id="save-client-btn">
+        <i class="fa-solid fa-check"></i> Save Client
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     CONFIRM DELETE DIALOG
+═══════════════════════════════════════════════ -->
+<div class="admin-confirm-overlay" id="confirm-overlay">
+  <div class="admin-confirm-dialog">
+    <div class="admin-confirm-icon"><i class="fa-solid fa-trash-can"></i></div>
+    <h3>Delete Client?</h3>
+    <p>This action cannot be undone. The client and their data will be permanently removed.</p>
+    <div class="admin-confirm-actions">
+      <button class="btn-cancel" id="confirm-cancel">Cancel</button>
+      <button class="btn-danger" id="confirm-delete">
+        <i class="fa-solid fa-trash"></i> Delete
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Notification -->
+<div class="admin-toast" id="admin-toast">
+  <i class="fa-solid fa-check-circle"></i>
+  <span id="toast-message">Success!</span>
+</div>
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

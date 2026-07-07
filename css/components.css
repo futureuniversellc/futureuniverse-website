@@ -1257,6 +1257,67 @@
 .blog-meta i { color: var(--color-secondary); }
 
 /* ══════════════════════════════════════════════════════════
+   CLIENT SHOWCASE (DYNAMIC)
+══════════════════════════════════════════════════════════ */
+.clients-showcase-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-top: 48px;
+}
+.client-showcase-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--glass-shadow);
+  padding: 32px 24px;
+  text-align: center;
+  transition: var(--transition);
+}
+.client-showcase-card:hover {
+  border-color: var(--glass-border-light);
+  box-shadow: var(--shadow-lg), var(--glow-gold);
+  transform: translateY(-6px);
+}
+.client-showcase-logo {
+  width: 80px; height: 80px;
+  margin: 0 auto 20px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.client-showcase-logo img {
+  width: 100%; height: 100%;
+  object-fit: contain; padding: 12px;
+}
+.client-showcase-initials {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--color-secondary);
+}
+.client-showcase-card h4 { font-size: 1.1rem; margin-bottom: 6px; }
+.client-showcase-industry {
+  display: inline-block;
+  font-size: 0.75rem; font-weight: 600;
+  color: var(--color-secondary);
+  text-transform: uppercase; letter-spacing: 0.08em;
+  margin-bottom: 12px;
+}
+.client-showcase-card p {
+  font-size: 0.88rem; line-height: 1.6;
+  color: var(--color-text-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ══════════════════════════════════════════════════════════
    RESPONSIVE OVERRIDES — ALL DEVICES
 ══════════════════════════════════════════════════════════ */
 
