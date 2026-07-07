@@ -1,16 +1,14 @@
 /* ============================================================
    FUTURE UNIVERSE — FIREBASE CONFIGURATION
-   Replace the placeholder values below with your Firebase
-   project credentials from https://console.firebase.google.com
    ============================================================ */
 
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.firebasestorage.app",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyB1UY0ZIUSXUc_JyIsUrBxIgTCz6GX5hWA",
+  authDomain: "futureuniversedb.firebaseapp.com",
+  projectId: "futureuniversedb",
+  storageBucket: "futureuniversedb.firebasestorage.app",
+  messagingSenderId: "716956066404",
+  appId: "1:716956066404:web:26ca4c3d7ab5fb32dff571"
 };
 
 // Initialize Firebase
@@ -18,5 +16,4 @@ firebase.initializeApp(firebaseConfig);
 
 // References
 const db = firebase.firestore();
-const storage = firebase.storage();
 const auth = firebase.auth();
