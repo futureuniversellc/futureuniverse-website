@@ -1147,6 +1147,11 @@
   color: rgba(255, 255, 255, 0.4);
 }
 
+.form-group select option {
+  background-color: var(--color-bg);
+  color: var(--color-white);
+}
+
 .form-group textarea { resize: vertical; min-height: 130px; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 
