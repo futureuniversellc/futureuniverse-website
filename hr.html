@@ -65,6 +65,25 @@
   </div>
 </section>
 
+<!-- ═══════════════════════════════════════════════
+     CATEGORY PROJECTS PREVIEW (Dynamic)
+═══════════════════════════════════════════════ -->
+<section class="section-py" id="category-projects-section" style="display:none; background: rgba(255,255,255,0.02);">
+  <div class="container">
+    <div class="section-header" data-reveal="fade-up">
+      <span class="section-label" style="color:var(--color-secondary);">Our Portfolio</span>
+      <h2>Featured HR Projects</h2>
+      <p>A selection of recruitment drives, organizational consulting, and payroll management solutions we have delivered.</p>
+    </div>
+    <div class="gallery-grid" id="category-projects-grid" data-projects-category="hr">
+      <!-- Dynamically populated by js/clients.js -->
+    </div>
+    <div style="text-align:center; margin-top:40px;" data-reveal="fade-up">
+      <a href="projects.html" class="btn btn-primary"><i class="fa-solid fa-images"></i> See All Projects</a>
+    </div>
+  </div>
+</section>
+
 <section class="section-py">
   <div class="container">
     <div class="section-header" data-reveal="fade-up">
@@ -111,5 +130,10 @@
 
 <footer class="footer"><div class="container"><div class="footer-grid"><div><div class="footer-logo"><a href="index.html" class="logo"><div class="logo-mark">FU</div><div class="logo-text"><span class="logo-name">FUTURE UNIVERSE</span><span class="logo-tagline">Empowering People. Building Futures.</span></div></a></div><p class="footer-desc">Empowering individuals and organizations through education, HR, construction &amp; flooring excellence.</p><div class="footer-social"><a href="#"><i class="fa-brands fa-facebook-f"></i></a><a href="#"><i class="fa-brands fa-linkedin-in"></i></a><a href="#"><i class="fa-brands fa-instagram"></i></a><a href="#"><i class="fa-brands fa-youtube"></i></a></div></div><div class="footer-col"><h5>Quick Links</h5><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About Us</a></li><li><a href="education.html">Courses</a></li><li><a href="projects.html">Projects</a></li><li><a href="contact.html">Contact Us</a></li></ul></div><div class="footer-col"><h5>Our Services</h5><ul><li><a href="education.html">Education &amp; Training</a></li><li><a href="hr.html">Human Resource Solutions</a></li><li><a href="construction.html">Construction Solutions</a></li><li><a href="flooring.html">Flooring Solutions</a></li></ul></div><div class="footer-col"><h5>Contact Us</h5><div class="footer-contact-item"><div class="footer-contact-icon"><i class="fa-solid fa-location-dot"></i></div><div class="text"><strong>Address</strong>Muscat, Sultanate of Oman</div></div><div class="footer-contact-item"><div class="footer-contact-icon"><i class="fa-solid fa-phone"></i></div><div class="text"><strong>Phone</strong>+968 94939932</div></div><div class="footer-contact-item"><div class="footer-contact-icon"><i class="fa-solid fa-envelope"></i></div><div class="text"><strong>Email</strong>info@futureuniverse.co</div></div></div></div><div class="footer-bottom"><span>© 2024 Future Universe. All Rights Reserved.</span><div class="footer-bottom-links"><a href="#">Privacy Policy</a><a href="#">Terms &amp; Conditions</a></div></div></div></footer>
 <button id="back-to-top"><i class="fa-solid fa-arrow-up"></i></button>
-<script src="js/main.js?v=1781943394895"></script><script src="js/counter.js"></script>
+<div id="lightbox" class="lightbox"><img id="lightbox-img" src="" alt=""/><button class="lightbox-close"><i class="fa-solid fa-xmark"></i></button></div>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/clients.js"></script>
+<script src="js/main.js"></script><script src="js/gallery.js"></script><script src="js/counter.js"></script>
 </body></html>

@@ -22,6 +22,9 @@ document.addEventListener('DOMContentLoaded', () => {
         renderPartnersTicker(clients);
         renderClientsShowcase(clients.filter(c => c.featured));
         renderClientTestimonials(clients.filter(c => c.testimonial));
+        renderHomeProjectsPreview(clients);
+        renderCategoryProjectsPreview(clients);
+        renderAllProjects(clients);
       }
     } catch (err) {
       console.warn('Clients: Could not load from Firestore, using static content.', err);
@@ -92,6 +95,135 @@ document.addEventListener('DOMContentLoaded', () => {
     // Show the section
     const section = document.getElementById('clients-showcase-section');
     if (section) section.style.display = '';
+  }
+
+  // ── Render Home Projects Preview ───────────────────────────
+  function renderHomeProjectsPreview(clients) {
+    const grid = document.getElementById('home-projects-grid');
+    if (!grid) return;
+
+    let allProjects = [];
+    clients.forEach(client => {
+      if (client.projectPhotos && client.projectPhotos.length > 0) {
+        client.projectPhotos.forEach((photo, idx) => {
+          allProjects.push({
+            photo,
+            clientName: client.name,
+            industry: client.industry,
+            category: (client.industry || 'other').toLowerCase().replace(/[^a-z]/g, '')
+          });
+        });
+      }
+    });
+
+    // Shuffle and pick 6
+    allProjects = allProjects.sort(() => 0.5 - Math.random()).slice(0, 6);
+    if (allProjects.length === 0) return;
+
+    grid.innerHTML = '';
+    allProjects.forEach((proj, i) => {
+      const item = document.createElement('div');
+      item.className = 'gallery-item';
+      item.dataset.category = proj.category;
+      item.dataset.reveal = 'fade-in';
+      item.dataset.delay = String(100 + (i * 50));
+      item.innerHTML = `
+        <img src="${proj.photo}" alt="${escapeHtml(proj.clientName)} Project" loading="lazy"/>
+        <div class="gallery-item-overlay">
+          <i class="fa-solid fa-expand"></i>
+          <span>${escapeHtml(proj.clientName)}<br><small style="opacity:0.7;font-weight:400;">${escapeHtml(proj.industry)}</small></span>
+        </div>
+      `;
+      grid.appendChild(item);
+    });
+
+    const section = document.getElementById('home-projects-section');
+    if (section) section.style.display = '';
+  }
+
+  // ── Render Category Projects Preview (for service pages) ──
+  function renderCategoryProjectsPreview(clients) {
+    const grid = document.getElementById('category-projects-grid');
+    if (!grid) return;
+
+    const targetCategory = grid.dataset.projectsCategory || '';
+    if (!targetCategory) return;
+
+    let catProjects = [];
+    clients.forEach(client => {
+      const clientCat = (client.industry || 'other').toLowerCase().replace(/[^a-z]/g, '');
+      if (clientCat === targetCategory && client.projectPhotos && client.projectPhotos.length > 0) {
+        client.projectPhotos.forEach(photo => {
+          catProjects.push({ photo, clientName: client.name, industry: client.industry });
+        });
+      }
+    });
+
+    catProjects = catProjects.slice(0, 6);
+    if (catProjects.length === 0) return;
+
+    grid.innerHTML = '';
+    catProjects.forEach((proj, i) => {
+      const item = document.createElement('div');
+      item.className = 'gallery-item';
+      item.dataset.reveal = 'fade-in';
+      item.dataset.delay = String(100 + (i * 50));
+      item.innerHTML = `
+        <img src="${proj.photo}" alt="${escapeHtml(proj.clientName)} Project" loading="lazy"/>
+        <div class="gallery-item-overlay">
+          <i class="fa-solid fa-expand"></i>
+          <span>${escapeHtml(proj.clientName)}</span>
+        </div>
+      `;
+      grid.appendChild(item);
+    });
+
+    const section = document.getElementById('category-projects-section');
+    if (section) section.style.display = '';
+    
+    // Re-initialize lightbox for new images
+    if (typeof initLightbox === 'function') initLightbox();
+  }
+
+  // ── Render All Projects (for projects.html) ───────────────
+  function renderAllProjects(clients) {
+    const grid = document.getElementById('all-projects-grid');
+    if (!grid) return;
+
+    let allProjects = [];
+    clients.forEach(client => {
+      if (client.projectPhotos && client.projectPhotos.length > 0) {
+        client.projectPhotos.forEach(photo => {
+          allProjects.push({
+            photo,
+            clientName: client.name,
+            industry: client.industry,
+            category: (client.industry || 'other').toLowerCase().replace(/[^a-z]/g, '')
+          });
+        });
+      }
+    });
+
+    if (allProjects.length === 0) return;
+
+    grid.innerHTML = '';
+    allProjects.forEach((proj, i) => {
+      const item = document.createElement('div');
+      item.className = 'gallery-item';
+      item.dataset.category = proj.category;
+      item.innerHTML = `
+        <img src="${proj.photo}" alt="${escapeHtml(proj.clientName)} Project" loading="lazy"/>
+        <div class="gallery-item-overlay">
+          <i class="fa-solid fa-expand"></i>
+          <span>${escapeHtml(proj.clientName)}<br><small style="opacity:0.7;font-weight:400;">${escapeHtml(proj.industry)}</small></span>
+        </div>
+      `;
+      grid.appendChild(item);
+    });
+
+    // Fire a custom event so gallery.js knows they are loaded and can attach search/filter logic
+    document.dispatchEvent(new Event('projectsLoaded'));
+    if (typeof initLightbox === 'function') initLightbox();
   }
 
   // ── Render Client Testimonials ─────────────────────────────
