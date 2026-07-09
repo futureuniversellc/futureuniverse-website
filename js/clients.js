@@ -116,8 +116,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Shuffle and pick 6
-    allProjects = allProjects.sort(() => 0.5 - Math.random()).slice(0, 6);
+    // Shuffle and pick 4
+    allProjects = allProjects.sort(() => 0.5 - Math.random()).slice(0, 4);
     if (allProjects.length === 0) return;
 
     grid.innerHTML = '';
@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    catProjects = catProjects.slice(0, 6);
+    catProjects = catProjects.slice(0, 4);
     if (catProjects.length === 0) return;
 
     grid.innerHTML = '';
@@ -238,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
       card.setAttribute('data-reveal', 'fade-up');
       const initials = getInitials(client.contact || client.name);
       card.innerHTML = `
-        <div class="testimonial-stars">★★★★★</div>
+        <div class="testimonial-stars">${renderStars(client.testimonialRating)}</div>
         <p class="testimonial-text">"${escapeHtml(client.testimonial)}"</p>
         <div class="testimonial-author">
           <div class="testimonial-avatar">${initials}</div>
@@ -253,6 +253,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ── Utilities ──────────────────────────────────────────────
+  function renderStars(rating) {
+    const n = Math.min(5, Math.max(1, parseInt(rating) || 5));
+    return '★'.repeat(n) + '☆'.repeat(5 - n);
+  }
+
   function getInitials(name) {
     if (!name) return '?';
     return name.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();

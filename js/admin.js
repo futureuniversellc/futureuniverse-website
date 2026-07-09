@@ -53,6 +53,33 @@ document.addEventListener('DOMContentLoaded', () => {
   let logoFile = null;
   let existingLogoUrl = null;
   let projectPhotos = [];
+  let testimonialRating = 5; // default 5 stars
+
+  // ── Star Rating Widget ─────────────────────────────────────
+  const starBtns = document.querySelectorAll('.star-btn');
+  const starRatingInput = document.getElementById('client-testimonial-rating');
+  const starRatingLabel = document.getElementById('star-rating-label');
+
+  function setStarRating(value) {
+    testimonialRating = value;
+    starRatingInput.value = value;
+    starRatingLabel.textContent = value + ' / 5';
+    starBtns.forEach(btn => {
+      const v = parseInt(btn.dataset.value);
+      btn.classList.toggle('filled', v <= value);
+    });
+  }
+
+  starBtns.forEach(btn => {
+    btn.addEventListener('click', () => setStarRating(parseInt(btn.dataset.value)));
+    btn.addEventListener('mouseenter', () => {
+      const hoverVal = parseInt(btn.dataset.value);
+      starBtns.forEach(b => b.classList.toggle('filled', parseInt(b.dataset.value) <= hoverVal));
+    });
+    btn.addEventListener('mouseleave', () => setStarRating(testimonialRating));
+  });
+
+  setStarRating(5); // initialize to 5
 
   // ── Auth State Listener ────────────────────────────────────
   auth.onAuthStateChanged(user => {
@@ -193,7 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <p>${escapeHtml(client.description || 'No description provided.')}</p>
           <div class="client-card-meta">
             ${client.service ? `<span class="client-card-tag"><i class="fa-solid fa-briefcase"></i> ${escapeHtml(client.service)}</span>` : ''}
-            ${client.testimonial ? `<span class="client-card-tag"><i class="fa-solid fa-quote-right"></i> Has Testimonial</span>` : ''}
+            ${client.testimonial ? `<span class="client-card-tag"><i class="fa-solid fa-star" style="color:#D4A017;"></i> ${client.testimonialRating || 5}/5 Testimonial</span>` : ''}
           </div>
         </div>
         <div class="client-card-actions">
@@ -252,6 +279,7 @@ document.addEventListener('DOMContentLoaded', () => {
     logoPreviewWrap.style.display = 'none';
     uploadZone.style.display = '';
     renderPhotosPreview();
+    setStarRating(5);
     clientModal.classList.add('open');
     document.body.style.overflow = 'hidden';
   }
@@ -274,6 +302,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('client-description').value = client.description || '';
     document.getElementById('client-testimonial').value = client.testimonial || '';
     document.getElementById('client-featured').checked = client.featured || false;
+    setStarRating(client.testimonialRating || 5);
 
     if (client.logoUrl) {
       logoPreview.src = client.logoUrl;
@@ -517,6 +546,7 @@ document.addEventListener('DOMContentLoaded', () => {
         contact: document.getElementById('client-contact').value.trim(),
         description: document.getElementById('client-description').value.trim(),
         testimonial: document.getElementById('client-testimonial').value.trim(),
+        testimonialRating: testimonialRating,
         featured: document.getElementById('client-featured').checked,
         logoUrl,
         projectPhotos,

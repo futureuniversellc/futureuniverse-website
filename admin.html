@@ -248,6 +248,20 @@
           <textarea id="client-testimonial" class="admin-textarea" placeholder="What the client said about your services..." style="min-height:80px;"></textarea>
         </div>
 
+        <!-- Star Rating -->
+        <div class="admin-form-group" id="testimonial-rating-group">
+          <label>Testimonial Rating</label>
+          <div class="star-rating-widget" id="star-rating-widget">
+            <button type="button" class="star-btn" data-value="1" aria-label="1 star"><i class="fa-solid fa-star"></i></button>
+            <button type="button" class="star-btn" data-value="2" aria-label="2 stars"><i class="fa-solid fa-star"></i></button>
+            <button type="button" class="star-btn" data-value="3" aria-label="3 stars"><i class="fa-solid fa-star"></i></button>
+            <button type="button" class="star-btn" data-value="4" aria-label="4 stars"><i class="fa-solid fa-star"></i></button>
+            <button type="button" class="star-btn" data-value="5" aria-label="5 stars"><i class="fa-solid fa-star"></i></button>
+            <span class="star-rating-label" id="star-rating-label">5 / 5</span>
+          </div>
+          <input type="hidden" id="client-testimonial-rating" value="5"/>
+        </div>
+
         <!-- Featured Toggle -->
         <div class="admin-form-group">
           <div class="admin-toggle-group">

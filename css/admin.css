@@ -1113,3 +1113,46 @@
   justify-content: center;
   cursor: pointer;
 }
+
+/* ── Star Rating Widget ───────────────────────────────────── */
+.star-rating-widget {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.star-btn {
+  background: none;
+  border: none;
+  padding: 4px 2px;
+  font-size: 1.6rem;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.2);
+  transition: color 0.15s ease, transform 0.15s ease;
+  line-height: 1;
+}
+
+.star-btn:hover,
+.star-btn.active {
+  color: #D4A017;
+  transform: scale(1.15);
+}
+
+.star-btn.filled {
+  color: #D4A017;
+}
+
+.star-btn:hover ~ .star-btn {
+  color: rgba(255, 255, 255, 0.2) !important;
+  transform: scale(1) !important;
+}
+
+.star-rating-label {
+  margin-left: 10px;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 500;
+  min-width: 32px;
+}
+
