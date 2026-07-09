@@ -607,3 +607,40 @@ function initHeroSlider() {
     slides[cur].classList.add('active');
   }, 6000);
 }
+
+// ── Security Features ───────────────────────────────────────
+// Disable Right-Click
+document.addEventListener('contextmenu', event => event.preventDefault());
+
+// Disable F12, Developer Tools, and View Source
+document.addEventListener('keydown', (e) => {
+  // F12
+  if (e.key === 'F12' || e.keyCode === 123) {
+    e.preventDefault();
+  }
+  // Ctrl+Shift+I / Ctrl+Shift+J / Ctrl+Shift+C
+  if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) {
+    e.preventDefault();
+  }
+  // Ctrl+U (View Source)
+  if (e.ctrlKey && (e.key === 'U' || e.key === 'u')) {
+    e.preventDefault();
+  }
+  // Ctrl+S (Save)
+  if (e.ctrlKey && (e.key === 'S' || e.key === 's')) {
+    e.preventDefault();
+  }
+  // Ctrl+P (Print)
+  if (e.ctrlKey && (e.key === 'P' || e.key === 'p')) {
+    e.preventDefault();
+  }
+});
+
+// Intercept PrintScreen
+document.addEventListener('keyup', (e) => {
+  if (e.key === 'PrintScreen' || e.keyCode === 44) {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText('');
+    }
+  }
+});
