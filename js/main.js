@@ -233,17 +233,32 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.disabled = true;
 
       const formData = new FormData(contactForm);
+      const data = Object.fromEntries(formData.entries());
+      // Remove honeypot field from JSON payload to avoid issues
+      delete data['_honey'];
 
-      fetch('https://formsubmit.co/ajax/info@futureuniverse.co', {
+      fetch('https://formsubmit.co/ajax/futureuniversellc@gmail.com', {
         method: 'POST',
-        headers: { 'Accept': 'application/json' },
-        body: formData
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json' 
+        },
+        body: JSON.stringify(data)
       })
-      .then(response => response.json())
-      .then(data => {
-        btn.innerHTML = '<i class="fa-solid fa-check"></i> Message Sent!';
-        btn.style.background = '#22c55e';
-        contactForm.reset();
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Server responded with status ' + response.status);
+        }
+        return response.json();
+      })
+      .then(result => {
+        if (result.success === 'true' || result.success === true) {
+          btn.innerHTML = '<i class="fa-solid fa-check"></i> Message Sent!';
+          btn.style.background = '#22c55e';
+          contactForm.reset();
+        } else {
+          throw new Error(result.message || 'Submission failed');
+        }
         setTimeout(() => {
           btn.innerHTML = orig;
           btn.style.background = '';
@@ -251,7 +266,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 4000);
       })
       .catch(error => {
-        btn.innerHTML = '<i class="fa-solid fa-xmark"></i> Error Sending';
+        console.error('Contact form error:', error);
+        btn.innerHTML = '<i class="fa-solid fa-xmark"></i> Error — Try Again';
         btn.style.background = '#ef4444';
         setTimeout(() => {
           btn.innerHTML = orig;

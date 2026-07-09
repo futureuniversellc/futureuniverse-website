@@ -144,7 +144,7 @@ Upload the entire project folder to any static web host:
 **Future Universe**  
 📍 Muscat, Sultanate of Oman  
 📞 +968 94939932  
-📧 info@futureuniverse.co  
+📧 md@futureuniverse.co  
 🌐 [www.futureuniverse.co](https://futureuniverse.co)
 
 ---
