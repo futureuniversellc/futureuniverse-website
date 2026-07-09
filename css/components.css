@@ -721,7 +721,7 @@
   border: var(--glass-border-light);
   box-shadow: var(--shadow-lg), var(--glow-gold);
 }
-.testimonial-stars { color: var(--color-secondary); margin-bottom: 18px; font-size: 1rem; letter-spacing: 2px; }
+.testimonial-stars { color: var(--color-secondary); margin-bottom: 18px; font-size: 1.3rem; letter-spacing: 2px; }
 .testimonial-text {
   font-size: 0.96rem;
   line-height: 1.8;
