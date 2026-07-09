@@ -116,8 +116,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Shuffle and pick 4
-    allProjects = allProjects.sort(() => 0.5 - Math.random()).slice(0, 4);
+    // Shuffle and pick 6
+    allProjects = allProjects.sort(() => 0.5 - Math.random()).slice(0, 6);
     if (allProjects.length === 0) return;
 
     grid.innerHTML = '';
@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    catProjects = catProjects.slice(0, 4);
+    catProjects = catProjects.slice(0, 6);
     if (catProjects.length === 0) return;
 
     grid.innerHTML = '';
@@ -255,7 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ── Utilities ──────────────────────────────────────────────
   function renderStars(rating) {
     const n = Math.min(5, Math.max(1, parseInt(rating) || 5));
-    return '★'.repeat(n) + '☆'.repeat(5 - n);
+    return '&#9733;'.repeat(n) + '&#9734;'.repeat(5 - n);
   }
 
   function getInitials(name) {
