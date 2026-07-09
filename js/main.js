@@ -225,8 +225,95 @@ document.addEventListener('DOMContentLoaded', () => {
   // ── Contact Form ──────────────────────────────────────────
   const contactForm = document.getElementById('contact-form');
   if (contactForm) {
+
+    // ── Validation helpers
+    const emailInput    = document.getElementById('email');
+    const phoneInput    = document.getElementById('phone');
+    const countryCode   = document.getElementById('country-code');
+    const fullPhone     = document.getElementById('full_phone');
+    const emailError    = document.getElementById('email-error');
+    const phoneError    = document.getElementById('phone-error');
+
+    function validateEmail(value) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+      return re.test(value.trim());
+    }
+
+    function validatePhone(value) {
+      // Allow 5-15 digits, optional spaces/dashes between
+      const digits = value.replace(/[\s\-().]/g, '');
+      return /^\d{5,15}$/.test(digits);
+    }
+
+    function setFieldState(input, errorEl, isValid, message) {
+      input.classList.toggle('field-invalid', !isValid);
+      input.classList.toggle('field-valid', isValid);
+      errorEl.textContent = isValid ? '' : message;
+    }
+
+    // Real-time validation on blur
+    emailInput.addEventListener('blur', () => {
+      if (emailInput.value.trim()) {
+        setFieldState(emailInput, emailError,
+          validateEmail(emailInput.value),
+          'Please enter a valid email address (e.g. you@example.com)');
+      }
+    });
+    emailInput.addEventListener('input', () => {
+      if (emailInput.classList.contains('field-invalid')) {
+        setFieldState(emailInput, emailError,
+          validateEmail(emailInput.value),
+          'Please enter a valid email address (e.g. you@example.com)');
+      }
+    });
+
+    phoneInput.addEventListener('blur', () => {
+      if (phoneInput.value.trim()) {
+        setFieldState(phoneInput, phoneError,
+          validatePhone(phoneInput.value),
+          'Enter a valid number (5–15 digits)');
+      }
+    });
+    phoneInput.addEventListener('input', () => {
+      // Only allow digits, spaces, dashes
+      phoneInput.value = phoneInput.value.replace(/[^\d\s\-().+]/g, '');
+      if (phoneInput.classList.contains('field-invalid')) {
+        setFieldState(phoneInput, phoneError,
+          validatePhone(phoneInput.value),
+          'Enter a valid number (5–15 digits)');
+      }
+    });
+
+    // ── Submit handler
     contactForm.addEventListener('submit', e => {
       e.preventDefault();
+
+      // Run validation
+      let isValid = true;
+
+      if (!validateEmail(emailInput.value)) {
+        setFieldState(emailInput, emailError, false, 'Please enter a valid email address (e.g. you@example.com)');
+        isValid = false;
+      } else {
+        setFieldState(emailInput, emailError, true, '');
+      }
+
+      if (phoneInput.value.trim() && !validatePhone(phoneInput.value)) {
+        setFieldState(phoneInput, phoneError, false, 'Enter a valid number (5–15 digits)');
+        isValid = false;
+      } else if (phoneInput.value.trim()) {
+        setFieldState(phoneInput, phoneError, true, '');
+      }
+
+      if (!isValid) return;
+
+      // Combine country code + phone into hidden field
+      const phoneDigits = phoneInput.value.trim();
+      if (phoneDigits) {
+        const code = countryCode ? countryCode.value : '';
+        fullPhone.value = code + ' ' + phoneDigits;
+      }
+
       const btn = contactForm.querySelector('button[type="submit"]');
       const orig = btn.innerHTML;
       btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
@@ -234,8 +321,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const formData = new FormData(contactForm);
       const data = Object.fromEntries(formData.entries());
-      // Remove honeypot field from JSON payload to avoid issues
+      // Remove honeypot & raw phone fields from payload
       delete data['_honey'];
+      delete data['country_code'];
 
       fetch('https://formsubmit.co/ajax/futureuniversellc@gmail.com', {
         method: 'POST',
@@ -256,6 +344,12 @@ document.addEventListener('DOMContentLoaded', () => {
           btn.innerHTML = '<i class="fa-solid fa-check"></i> Message Sent!';
           btn.style.background = '#22c55e';
           contactForm.reset();
+          // Clear validation states on reset
+          [emailInput, phoneInput].forEach(el => {
+            el.classList.remove('field-valid', 'field-invalid');
+          });
+          emailError.textContent = '';
+          phoneError.textContent = '';
         } else {
           throw new Error(result.message || 'Submission failed');
         }
@@ -277,6 +371,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
+
 
   // ── Smooth Scroll for Anchors ─────────────────────────────
   document.querySelectorAll('a[href^="#"]').forEach(a => {
