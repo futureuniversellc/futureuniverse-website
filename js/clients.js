@@ -231,17 +231,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const track = document.querySelector('.testimonial-track');
     if (!track || withTestimonials.length === 0) return;
 
-    // Append dynamic testimonials to existing ones or replace
-    withTestimonials.forEach(client => {
+    // Replace ALL static testimonials with dynamic ones from Firestore
+    track.innerHTML = '';
+    withTestimonials.forEach((client, i) => {
       const card = document.createElement('div');
       card.className = 'testimonial-card';
       card.setAttribute('data-reveal', 'fade-up');
+      card.setAttribute('data-delay', String(100 + i * 100));
       const initials = getInitials(client.contact || client.name);
       card.innerHTML = `
         <div class="testimonial-stars">${renderStars(client.testimonialRating)}</div>
         <p class="testimonial-text">"${escapeHtml(client.testimonial)}"</p>
         <div class="testimonial-author">
-          <div class="testimonial-avatar">${initials}</div>
+          ${client.logoUrl
+            ? `<img src="${client.logoUrl}" alt="${escapeHtml(client.name)}" class="testimonial-logo-img"/>`
+            : `<div class="testimonial-avatar">${initials}</div>`
+          }
           <div>
             <div class="testimonial-name">${escapeHtml(client.contact || client.name)}</div>
             <div class="testimonial-role">${escapeHtml(client.name)}</div>
@@ -250,6 +255,17 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
       track.appendChild(card);
     });
+
+    // Rebuild slider dots to match new count
+    const dotsContainer = document.querySelector('.slider-dots');
+    if (dotsContainer) {
+      dotsContainer.innerHTML = '';
+      withTestimonials.forEach((_, i) => {
+        const dot = document.createElement('div');
+        dot.className = 'slider-dot' + (i === 0 ? ' active' : '');
+        dotsContainer.appendChild(dot);
+      });
+    }
   }
 
   // ── Utilities ──────────────────────────────────────────────
