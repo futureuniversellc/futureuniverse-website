@@ -1481,6 +1481,12 @@
   .stats-grid .stat-item:nth-child(2) { border-right: none; }
   .program-grid { grid-template-columns: repeat(2,1fr); }
   .service-detail-grid { grid-template-columns: repeat(2,1fr); }
+  
+  /* Hero Stats 2x2 */
+  .hero-stats .container { flex-wrap: wrap; }
+  .hero-stat { flex: 0 0 50%; }
+  .hero-stat:nth-child(2) { border-right: none; }
+  .hero-stat:nth-child(1), .hero-stat:nth-child(2) { border-bottom: 1px solid rgba(255,255,255,.1); }
 }
 
 /* ── Tablet Landscape / Small Laptop (769px–1024px) ────── */
@@ -1498,8 +1504,8 @@
   .cta-section { padding: 80px 0; }
 }
 
-/* ── Tablet / Small Laptop Navbar Breakpoint (1200px) ────── */
-@media (max-width: 1200px) {
+/* ── Tablet / Small Laptop Navbar Breakpoint (1366px) ────── */
+@media (max-width: 1366px) {
   .nav-links, .nav-cta { display: none !important; }
   .hamburger { display: flex !important; }
   .navbar { width: calc(100% - 28px); }
