@@ -381,9 +381,7 @@ p  { color: var(--color-text-muted); font-size: 1.05rem; line-height: 1.85; font
 /* ── Standard Laptop (1025px–1440px) ——————————————————————— */
 @media (max-width: 1440px) and (min-width: 1025px) {
   :root { --section-py: 100px; }
-  html { font-size: 15px; }
-  .grid-4 { grid-template-columns: repeat(2,1fr); }
-  .grid-6 { grid-template-columns: repeat(3,1fr); }
+  html { font-size: 12.5px; } /* Scales entire layout down ~22% to fit without breaking */
 }
 
 /* ── Tablet Landscape / Small Laptop (769px–1024px) ────── */

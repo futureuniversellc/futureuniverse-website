@@ -223,7 +223,8 @@
   text-align: center;
 }
 .mobile-nav a:hover { color: var(--color-secondary); }
-.mobile-nav .btn { margin-top: 24px; width: 100%; justify-content: center; }
+.mobile-nav a { color: var(--color-white); }
+.mobile-nav .btn { margin-top: 32px; width: auto; padding: 14px 40px; justify-content: center; color: var(--color-white) !important; font-size: 0.95rem; }
 .mobile-nav-close {
   position: absolute;
   top: 24px; right: 24px;
@@ -274,7 +275,8 @@
 .hero-content {
   position: relative;
   z-index: 2;
-  max-width: 750px;
+  width: 100%;
+  max-width: clamp(300px, 55vw, 750px);
   margin-top: -80px;
 }
 .hero-badge {
@@ -1473,20 +1475,12 @@
 
 /* ── Laptop Breakpoint (1025px–1440px) ─────────────────── */
 @media (max-width: 1440px) {
-  .feature-grid { grid-template-columns: repeat(2,1fr); }
-  .why-features { grid-template-columns: repeat(2,1fr); }
-  .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
-  .stats-grid { grid-template-columns: repeat(2,1fr); }
-  .stats-grid .stat-item { border-bottom: 1px solid rgba(255,255,255,.07); }
-  .stats-grid .stat-item:nth-child(2) { border-right: none; }
-  .program-grid { grid-template-columns: repeat(2,1fr); }
-  .service-detail-grid { grid-template-columns: repeat(2,1fr); }
-  
-  /* Hero Stats 2x2 */
-  .hero-stats .container { flex-wrap: wrap; }
-  .hero-stat { flex: 0 0 50%; }
-  .hero-stat:nth-child(2) { border-right: none; }
-  .hero-stat:nth-child(1), .hero-stat:nth-child(2) { border-bottom: 1px solid rgba(255,255,255,.1); }
+  .hero-content { margin-top: -120px; }
+  .hero h1 { font-size: clamp(2rem, 4.5vw, 3.2rem); margin-bottom: 8px; }
+  .hero-sub { font-size: 0.9rem; }
+  .hero p { font-size: 0.95rem; margin-bottom: 16px; }
+  .hero-badge { margin-bottom: 16px; transform: scale(0.9); transform-origin: left center; }
+  .hero-btns { gap: 12px; }
 }
 
 /* ── Tablet Landscape / Small Laptop (769px–1024px) ────── */
@@ -1499,13 +1493,13 @@
   .program-grid { grid-template-columns: repeat(2,1fr); }
   .testimonial-card { flex: 0 0 calc(50% - 14px); }
   .service-detail-grid { grid-template-columns: repeat(2,1fr); }
-  .hero-content { max-width: 650px; }
+
   .about-img-main img { height: 400px; }
   .cta-section { padding: 80px 0; }
 }
 
-/* ── Tablet / Small Laptop Navbar Breakpoint (1366px) ────── */
-@media (max-width: 1366px) {
+/* ── Tablet / Small Laptop Navbar Breakpoint (1200px) ────── */
+@media (max-width: 1200px) {
   .nav-links, .nav-cta { display: none !important; }
   .hamburger { display: flex !important; }
   .navbar { width: calc(100% - 28px); }
