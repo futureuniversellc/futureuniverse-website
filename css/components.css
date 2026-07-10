@@ -1471,6 +1471,18 @@
   .why-feature { padding: 34px 28px; }
 }
 
+/* ── Laptop Breakpoint (1025px–1440px) ─────────────────── */
+@media (max-width: 1440px) {
+  .feature-grid { grid-template-columns: repeat(2,1fr); }
+  .why-features { grid-template-columns: repeat(2,1fr); }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+  .stats-grid { grid-template-columns: repeat(2,1fr); }
+  .stats-grid .stat-item { border-bottom: 1px solid rgba(255,255,255,.07); }
+  .stats-grid .stat-item:nth-child(2) { border-right: none; }
+  .program-grid { grid-template-columns: repeat(2,1fr); }
+  .service-detail-grid { grid-template-columns: repeat(2,1fr); }
+}
+
 /* ── Tablet Landscape / Small Laptop (769px–1024px) ────── */
 @media (max-width: 1024px) {
   .feature-grid { grid-template-columns: repeat(2,1fr); }

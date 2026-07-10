@@ -978,6 +978,11 @@
 }
 
 /* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 1440px) {
+  .admin-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 @media (max-width: 1024px) {
   .admin-stats {
     grid-template-columns: repeat(2, 1fr);
