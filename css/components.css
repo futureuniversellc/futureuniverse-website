@@ -1516,12 +1516,20 @@
   .logo-tagline { font-size: 0.6rem; }
   
   /* Hero */
-  .hero { min-height: 100vh; }
+  .hero { min-height: 100vh; padding-bottom: 40px; }
   .hero-content { margin-top: 0; padding-top: 100px; }
-  .hero h1 { font-size: clamp(2rem, 8vw, 3rem); }
-  .hero-sub { font-size: 0.9rem; letter-spacing: 0.05em; }
-  .hero p { font-size: 1rem; }
-  .hero-stats { display: none; }
+  .hero h1 { font-size: clamp(1.8rem, 6vw, 2.6rem); margin-bottom: 12px; }
+  .hero-sub { font-size: 0.8rem; letter-spacing: 0.05em; }
+  .hero p { font-size: 0.95rem; margin-bottom: 24px; }
+  
+  .hero-stats { display: block; position: relative; bottom: auto; margin-top: 40px; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.05); }
+  .hero-stats .container { flex-wrap: wrap; }
+  .hero-stat { flex: 0 0 50%; padding: 12px 8px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .hero-stat:nth-child(2) { border-right: none; }
+  .hero-stat:nth-child(3), .hero-stat:nth-child(4) { border-bottom: none; }
+  .hero-stat-num { font-size: 1.8rem; }
+  .hero-stat-label { font-size: 0.75rem; }
+  
   .hero-scroll { display: none; }
   .hero-btns { flex-direction: column; align-items: stretch; width: 100%; }
   .hero-btns .btn { justify-content: center; text-align: center; }
